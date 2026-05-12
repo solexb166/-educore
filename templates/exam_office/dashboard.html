@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Exam Office{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-file-alt"></i> Exam Office Dashboard</h1></div>
+  <form method="post" action="{% url 'generate_dockets' %}">{% csrf_token %}<button type="submit" class="btn btn-accent" onclick="return confirm('Generate dockets for all cleared students?')"><i class="fas fa-magic"></i> Generate All Dockets</button></form>
+</div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-check-circle" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ cleared_count }}</div><div class="stat-label">Cleared for Exams</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-times-circle" style="color:var(--danger);"></i></div><div><div class="stat-value" style="color:var(--danger);">{{ not_cleared_count }}</div><div class="stat-label">Not Cleared</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-id-card" style="color:var(--info);"></i></div><div><div class="stat-value" style="color:var(--info);">{{ dockets_generated }}</div><div class="stat-label">Dockets Generated</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-users" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_students }}</div><div class="stat-label">Total Students</div></div></div>
+</div>
+<div class="grid-2">
+  <a href="{% url 'clearance_list' %}?type=exam" class="module-card" style="border-left-color:var(--accent);"><div class="module-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-list-check" style="color:var(--accent);font-size:20px;"></i></div><div class="module-title">Exam Clearance List</div><div class="module-desc">View who can and cannot sit exams</div></a>
+  <a href="{% url 'clearance_list' %}?type=cat2" class="module-card" style="border-left-color:var(--info);"><div class="module-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-clipboard-check" style="color:var(--info);font-size:20px;"></i></div><div class="module-title">CAT 2 Clearance</div><div class="module-desc">View CAT 2 clearance list</div></a>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}My Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1><i class="fas fa-home"></i> My Dashboard</h1><p>Welcome back, {{ student.full_name|default:user.username }}</p></div>
+</div>
+{% if student %}
+<div style="display:grid;grid-template-columns:300px 1fr;gap:24px;margin-bottom:28px;">
+  <div class="card">
+    <div class="card-body" style="text-align:center;">
+      {% if student.photo %}<img src="{{ student.photo.url }}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary);margin-bottom:12px;">
+      {% else %}<div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:white;margin:0 auto 12px;">{{ student.full_name|first|upper }}</div>{% endif %}
+      <h3 style="font-size:16px;font-weight:700;color:var(--text);">{{ student.full_name }}</h3>
+      <p style="font-size:13px;color:var(--text-muted);">{{ student.student_id }}</p>
+      <span class="badge badge-primary" style="margin-top:8px;">{{ student.get_mode_of_study_display }}</span>
+      <form method="post" action="{% url 'upload_photo' %}" enctype="multipart/form-data" style="margin-top:16px;">
+        {% csrf_token %}<label style="font-size:12px;color:var(--primary);cursor:pointer;font-weight:600;"><i class="fas fa-camera"></i> Update Photo<input type="file" name="photo" accept="image/*" onchange="this.form.submit()" style="display:none;"></label>
+      </form>
+      <div style="margin-top:16px;text-align:left;">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Programme</div>
+        <div style="font-size:13px;font-weight:600;">{{ student.programme.name|default:"N/A" }}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:8px;margin-bottom:4px;">Semester</div>
+        <div style="font-size:13px;font-weight:600;">Semester {{ student.semester_in_programme }}</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:8px;margin-bottom:4px;">Type</div>
+        <div style="font-size:13px;font-weight:600;">{{ student.get_student_type_display }}</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="stats-grid" style="margin-bottom:20px;">
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-book-open" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ enrollments.count|default:0 }}</div><div class="stat-label">Enrolled Modules</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-chart-line" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ avg_marks }}%</div><div class="stat-label">Average Marks</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-money-bill" style="color:var(--danger);"></i></div><div><div class="stat-value" style="color:var(--danger);font-size:18px;">{{ student.currency }} {{ balance|floatformat:0 }}</div><div class="stat-label">Balance Due</div></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h5><i class="fas fa-tasks"></i> Payment Progress</h5></div>
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:14px;font-weight:600;">{{ student.payment_percentage|floatformat:1 }}% Paid</span>
+          <span style="font-size:13px;color:var(--text-muted);">{{ student.currency }} {{ student.total_paid|floatformat:0 }} / {{ student.effective_tuition|floatformat:0 }}</span>
+        </div>
+        <div class="progress-bar-wrap" style="margin-bottom:16px;"><div class="progress-bar-fill" style="width:{{ student.payment_percentage|floatformat:0 }}%;"></div></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
+          {% with pct=student.payment_percentage uni=student.university %}
+          <div style="padding:10px;border-radius:10px;{% if pct >= uni.enrollment_threshold %}background:rgba(16,185,129,0.1);{% else %}background:var(--bg);{% endif %}">
+            <div style="font-size:18px;font-weight:800;{% if pct >= uni.enrollment_threshold %}color:var(--accent);{% else %}color:var(--text-muted);{% endif %}">{{ uni.enrollment_threshold }}%</div>
+            <div style="font-size:11px;color:var(--text-muted);">Enrolled</div>
+            {% if pct >= uni.enrollment_threshold %}<i class="fas fa-check-circle" style="color:var(--accent);font-size:12px;"></i>{% endif %}
+          </div>
+          <div style="padding:10px;border-radius:10px;{% if pct >= uni.cat1_threshold %}background:rgba(16,185,129,0.1);{% else %}background:var(--bg);{% endif %}">
+            <div style="font-size:18px;font-weight:800;{% if pct >= uni.cat1_threshold %}color:var(--accent);{% else %}color:var(--text-muted);{% endif %}">{{ uni.cat1_threshold }}%</div>
+            <div style="font-size:11px;color:var(--text-muted);">CAT 1</div>
+            {% if pct >= uni.cat1_threshold %}<i class="fas fa-check-circle" style="color:var(--accent);font-size:12px;"></i>{% endif %}
+          </div>
+          <div style="padding:10px;border-radius:10px;{% if pct >= uni.cat2_threshold %}background:rgba(16,185,129,0.1);{% else %}background:var(--bg);{% endif %}">
+            <div style="font-size:18px;font-weight:800;{% if pct >= uni.cat2_threshold %}color:var(--accent);{% else %}color:var(--text-muted);{% endif %}">{{ uni.cat2_threshold }}%</div>
+            <div style="font-size:11px;color:var(--text-muted);">CAT 2</div>
+            {% if pct >= uni.cat2_threshold %}<i class="fas fa-check-circle" style="color:var(--accent);font-size:12px;"></i>{% endif %}
+          </div>
+          <div style="padding:10px;border-radius:10px;{% if pct >= uni.exam_threshold %}background:rgba(16,185,129,0.1);{% else %}background:var(--bg);{% endif %}">
+            <div style="font-size:18px;font-weight:800;{% if pct >= uni.exam_threshold %}color:var(--accent);{% else %}color:var(--text-muted);{% endif %}">{{ uni.exam_threshold }}%</div>
+            <div style="font-size:11px;color:var(--text-muted);">Exam</div>
+            {% if pct >= uni.exam_threshold %}<i class="fas fa-check-circle" style="color:var(--accent);font-size:12px;"></i>{% endif %}
+          </div>
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid-3">
+  <a href="{% url 'select_modules' %}" class="module-card" style="border-left-color:var(--primary);"><div class="module-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-plus-circle" style="color:var(--primary);font-size:20px;"></i></div><div class="module-title">Register Modules</div><div class="module-desc">Select your courses for this semester</div></a>
+  <a href="{% url 'submit_payment' %}" class="module-card" style="border-left-color:var(--accent);"><div class="module-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-upload" style="color:var(--accent);font-size:20px;"></i></div><div class="module-title">Submit Payment</div><div class="module-desc">Upload your bank payment proof</div></a>
+  <a href="{% url 'proof_of_registration' %}" class="module-card" style="border-left-color:var(--gold);"><div class="module-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-print" style="color:var(--gold);font-size:20px;"></i></div><div class="module-title">Proof of Registration</div><div class="module-desc">Print your registration document</div></a>
+  <a href="{% url 'my_results' %}" class="module-card" style="border-left-color:var(--info);"><div class="module-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-chart-bar" style="color:var(--info);font-size:20px;"></i></div><div class="module-title">My Results</div><div class="module-desc">View your published results</div></a>
+  <a href="{% url 'my_transcript' %}" class="module-card" style="border-left-color:#8B5CF6;"><div class="module-icon" style="background:rgba(139,92,246,0.1);"><i class="fas fa-scroll" style="color:#8B5CF6;font-size:20px;"></i></div><div class="module-title">Transcript</div><div class="module-desc">Download your academic transcript</div></a>
+  <a href="{% url 'my_exam_docket' %}" class="module-card" style="border-left-color:var(--danger);"><div class="module-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-id-card" style="color:var(--danger);font-size:20px;"></i></div><div class="module-title">Exam Docket</div><div class="module-desc">Print your exam entry docket</div></a>
+</div>
+{% else %}
+<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> Student profile not found. Please contact your Registry office.</div>
+{% endif %}
+{% endblock %}

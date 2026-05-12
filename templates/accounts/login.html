@@ -1,0 +1,437 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — EduCore</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; background: #071330; }
+
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; }
+
+.login-wrap {
+  position: relative; z-index: 10;
+  display: flex;
+  width: min(900px, 96vw);
+  height: min(560px, 92vh);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+  opacity: 0; transform: translateY(24px);
+  animation: cardIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+}
+@keyframes cardIn { to { opacity:1; transform:translateY(0); } }
+
+/* LEFT */
+.left {
+  flex: 1.1;
+  background: linear-gradient(160deg, #1a3a7a 0%, #0f1f5c 55%, #071330 100%);
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.left::before {
+  content: '';
+  position: absolute;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.04);
+  top: -100px; right: -100px;
+  animation: spin 40s linear infinite;
+}
+.left::after {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  border: 1px solid rgba(16,185,129,0.08);
+  bottom: -60px; left: -40px;
+  animation: spin 28s linear infinite reverse;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.brand {
+  display: flex; align-items: center; gap: 12px;
+  position: relative; z-index: 2;
+  opacity: 0; transform: translateX(-12px);
+  animation: slideIn 0.6s ease 0.7s forwards;
+}
+@keyframes slideIn { to { opacity:1; transform:translateX(0); } }
+
+.brand-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, #1E3A8A, #10B981);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 900; font-size: 15px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  flex-shrink: 0;
+}
+.brand-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 20px; font-weight: 900; color: white; letter-spacing: -0.5px;
+}
+.brand-name span { color: #10B981; }
+
+.left-middle {
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 0.9s forwards;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.left-headline {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 38px; font-weight: 900;
+  color: white; line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 14px;
+}
+.left-headline em { font-style: normal; color: #10B981; }
+
+.left-motto {
+  font-size: 15px;
+  color: rgba(255,255,255,0.38);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.left-bottom {
+  position: relative; z-index: 2;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 1.1s forwards;
+}
+.left-bottom p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* RIGHT */
+.right {
+  flex: 1;
+  background: #F8FAFF;
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-head {
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.8s forwards;
+}
+.form-head h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px; font-weight: 800;
+  color: #1E293B; margin-bottom: 5px;
+}
+.form-head p { font-size: 13px; color: #94A3B8; }
+
+.msg-err {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-left: 4px solid #EF4444;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 13px; color: #B91C1C;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 11px; font-weight: 700;
+  color: #1E293B;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 7px;
+}
+.input-wrap { position: relative; }
+.input-wrap .icon-left {
+  position: absolute; left: 14px; top: 50%;
+  transform: translateY(-50%);
+  color: #CBD5E1; font-size: 14px;
+  pointer-events: none; z-index: 1;
+  transition: color 0.2s;
+}
+.input-wrap:focus-within .icon-left { color: #1E3A8A; }
+.input-wrap input {
+  width: 100%;
+  padding: 13px 42px 13px 42px;
+  background: white;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 11px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; color: #1E293B;
+  outline: none;
+  transition: all 0.2s;
+  display: block;
+}
+.input-wrap input:focus {
+  border-color: #1E3A8A;
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.09);
+}
+.input-wrap input::placeholder { color: #CBD5E1; }
+.toggle-pass {
+  position: absolute; right: 13px; top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer; color: #CBD5E1;
+  font-size: 14px; z-index: 2;
+  transition: color 0.2s;
+  background: none; border: none; padding: 2px;
+}
+.toggle-pass:hover { color: #1E3A8A; }
+
+.btn-sign {
+  width: 100%; padding: 14px;
+  background: #1E3A8A; color: white;
+  border: none; border-radius: 11px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  margin-top: 8px;
+  transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-sign::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #1a3a7a, #10B981);
+  opacity: 0; transition: opacity 0.35s;
+}
+.btn-sign:hover::before { opacity: 1; }
+.btn-sign:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(30,58,138,0.28); }
+.btn-sign:active { transform: translateY(0); }
+.btn-sign span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
+
+.btn-sign.loading span { opacity: 0; }
+.btn-sign.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin2 0.7s linear infinite;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+@keyframes spin2 { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+.form-footer {
+  margin-top: 18px; text-align: center;
+}
+.form-footer p {
+  font-size: 11px; color: #CBD5E1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.form-footer i { color: #10B981; }
+
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transform: scale(0);
+  animation: rip 0.55s linear;
+  pointer-events: none;
+}
+@keyframes rip { to { transform: scale(4); opacity: 0; } }
+
+@media (max-width: 640px) {
+  html, body { height: auto; overflow-y: auto; }
+  body { align-items: flex-start; }
+  .login-wrap {
+    flex-direction: column; width: 100%;
+    height: auto; min-height: 100vh; border-radius: 0;
+  }
+  .left { padding: 36px 28px 28px; }
+  .left-headline { font-size: 28px; }
+  .right { padding: 32px 28px 52px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="login-wrap">
+
+  <!-- LEFT -->
+  <div class="left">
+    <a href="/" class="brand" style="text-decoration:none;">
+      <div class="brand-icon">EC</div>
+      <div class="brand-name">Edu<span>Core</span></div>
+    </a>
+
+    <div class="left-middle">
+      <h1 class="left-headline">Manage.<br>Track. <em>Excel.</em></h1>
+      <p class="left-motto">Powering Universities. Transforming Lives.</p>
+    </div>
+
+    <div class="left-bottom">
+      <a href="/" style="display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.3);font-size:12px;text-decoration:none;transition:color 0.2s;margin-bottom:10px;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'"><i class="fas fa-arrow-left" style="font-size:11px;"></i> Back to Home</a>
+      <p>EduCore &copy; {{ year }}</p>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="form-head">
+      <h2>Welcome back</h2>
+      <p>Sign in to your account to continue</p>
+    </div>
+
+    {% if messages %}
+    {% for m in messages %}
+    <div class="msg-err"><i class="fas fa-exclamation-circle"></i> {{ m }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="post" id="loginForm">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <div class="input-wrap">
+          <i class="fas fa-user icon-left"></i>
+          <input type="text" name="username" placeholder="Enter your username" required autocomplete="username">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock icon-left"></i>
+          <input type="password" name="password" id="passwordInput" placeholder="Enter your password" required autocomplete="current-password">
+          <button type="button" class="toggle-pass" id="togglePass" title="Show password">
+            <i class="fas fa-eye" id="eyeIcon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-sign" id="loginBtn">
+        <span><i class="fas fa-sign-in-alt"></i> Sign In to EduCore</span>
+      </button>
+    </form>
+
+    <div class="form-footer">
+      <p><i class="fas fa-shield-alt"></i> Secured by EduCore Platform</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Canvas particles
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+class Dot {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.r = Math.random() * 1.4 + 0.2;
+    this.vx = (Math.random() - 0.5) * 0.25;
+    this.vy = (Math.random() - 0.5) * 0.25;
+    this.a = Math.random() * 0.35 + 0.08;
+    this.green = Math.random() > 0.82;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.green
+      ? `rgba(16,185,129,${this.a})`
+      : `rgba(255,255,255,${this.a * 0.28})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 90; i++) particles.push(new Dot());
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W * 0.3, H * 0.4, 0, W * 0.3, H * 0.4, W * 0.75);
+  g.addColorStop(0, '#1a3a7a');
+  g.addColorStop(0.5, '#0f1f5c');
+  g.addColorStop(1, '#050d28');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 85) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(16,185,129,${0.025 * (1 - d / 85)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+    particles[i].update();
+    particles[i].draw();
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+// Ripple on button click
+document.getElementById('loginBtn').addEventListener('click', function(e) {
+  const rect = this.getBoundingClientRect();
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const s = Math.max(rect.width, rect.height);
+  r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - rect.left - s/2}px;top:${e.clientY - rect.top - s/2}px;`;
+  this.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+});
+
+// Loading state on submit
+document.getElementById('loginForm').addEventListener('submit', function() {
+  document.getElementById('loginBtn').classList.add('loading');
+});
+
+// Password toggle
+document.getElementById('togglePass').addEventListener('click', function() {
+  const input = document.getElementById('passwordInput');
+  const icon = document.getElementById('eyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.replace('fa-eye', 'fa-eye-slash');
+    this.style.color = '#1E3A8A';
+  } else {
+    input.type = 'password';
+    icon.classList.replace('fa-eye-slash', 'fa-eye');
+    this.style.color = '#CBD5E1';
+  }
+});
+</script>
+</body>
+</html>

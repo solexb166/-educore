@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Fee Status{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-wallet"></i> Fee Payment Status</h1><p>All students fee status</p></div><a href="{% url 'pending_payments' %}" class="btn btn-accent"><i class="fas fa-clock"></i> Pending {% if pending_count > 0 %}({{ pending_count }}){% endif %}</a></div>
+<div class="card mb-4">
+  <div class="card-body" style="padding:16px;">
+    <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;">
+      <input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search student..." style="width:200px;">
+      <select name="status" class="form-control" style="width:160px;" onchange="this.form.submit()">
+        <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Status</option>
+        <option value="Exam Cleared">Exam Cleared</option>
+        <option value="CAT 2 Cleared">CAT 2 Cleared</option>
+        <option value="CAT 1 Cleared">CAT 1 Cleared</option>
+        <option value="Enrolled">Enrolled</option>
+        <option value="Not Enrolled">Not Enrolled</option>
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> Search</button>
+      <a href="{% url 'fees_list' %}" class="btn btn-outline btn-sm">Clear</a>
+    </form>
+  </div>
+</div>
+<div class="card">
+  <div class="table-wrapper">
+    <table><thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Programme</th><th>Paid</th><th>Balance</th><th>%</th><th>Status</th></tr></thead>
+    <tbody>{% for item in student_data %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td><span class="badge badge-primary">{{ item.student.student_id }}</span></td>
+      <td><strong>{{ item.student.full_name }}</strong></td>
+      <td style="font-size:12px;color:var(--text-muted);">{{ item.student.programme.name|default:"N/A"|truncatechars:20 }}</td>
+      <td style="font-weight:600;color:var(--accent);">{{ item.student.currency }} {{ item.total_paid|floatformat:0 }}</td>
+      <td style="font-weight:600;color:var(--danger);">{{ item.student.currency }} {{ item.balance|floatformat:0 }}</td>
+      <td><strong>{{ item.percentage }}%</strong></td>
+      <td><span class="badge badge-{% if item.badge == 'success' %}success{% elif item.badge == 'info' %}info{% elif item.badge == 'primary' %}primary{% elif item.badge == 'warning' %}warning{% else %}danger{% endif %}">{{ item.status }}</span></td>
+    </tr>
+    {% empty %}<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);">No records found</td></tr>{% endfor %}
+    </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

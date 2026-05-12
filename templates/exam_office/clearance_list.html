@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Clearance List{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-list-check"></i> {{ label }}</h1><p>{{ cleared|length }} cleared, {{ not_cleared|length }} not cleared</p></div>
+  <div style="display:flex;gap:8px;">
+    <a href="?type=enrollment" class="btn btn-sm {% if clearance_type == 'enrollment' %}btn-primary{% else %}btn-outline{% endif %}">Enrollment</a>
+    <a href="?type=cat1" class="btn btn-sm {% if clearance_type == 'cat1' %}btn-primary{% else %}btn-outline{% endif %}">CAT 1</a>
+    <a href="?type=cat2" class="btn btn-sm {% if clearance_type == 'cat2' %}btn-primary{% else %}btn-outline{% endif %}">CAT 2</a>
+    <a href="?type=exam" class="btn btn-sm {% if clearance_type == 'exam' %}btn-primary{% else %}btn-outline{% endif %}">Exam</a>
+  </div>
+</div>
+<div class="grid-2">
+  <div class="card">
+    <div class="card-header" style="background:rgba(16,185,129,0.05);"><h5 style="color:var(--accent);"><i class="fas fa-check-circle"></i> Cleared ({{ cleared|length }})</h5></div>
+    <div class="table-wrapper"><table><thead><tr><th>Student</th><th>ID</th><th>%</th></tr></thead>
+    <tbody>{% for item in cleared %}<tr><td><strong>{{ item.student.full_name }}</strong></td><td style="font-size:12px;">{{ item.student.student_id }}</td><td><span class="badge badge-success">{{ item.percentage }}%</span></td></tr>{% empty %}<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--text-muted);">None</td></tr>{% endfor %}</tbody></table></div>
+  </div>
+  <div class="card">
+    <div class="card-header" style="background:rgba(239,68,68,0.05);"><h5 style="color:var(--danger);"><i class="fas fa-times-circle"></i> Not Cleared ({{ not_cleared|length }})</h5></div>
+    <div class="table-wrapper"><table><thead><tr><th>Student</th><th>%</th><th>Shortfall</th></tr></thead>
+    <tbody>{% for item in not_cleared %}<tr><td><strong>{{ item.student.full_name }}</strong><br><small style="color:var(--text-muted);">{{ item.student.student_id }}</small></td><td><span class="badge badge-danger">{{ item.percentage }}%</span></td><td style="color:var(--danger);font-size:13px;">{{ item.student.currency }} {{ item.shortfall|floatformat:0 }}</td></tr>{% empty %}<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--text-muted);">All cleared!</td></tr>{% endfor %}</tbody></table></div>
+  </div>
+</div>
+{% endblock %}

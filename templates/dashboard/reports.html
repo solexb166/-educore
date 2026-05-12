@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-chart-bar"></i> Reports</h1></div></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-user-graduate" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_students }}</div><div class="stat-label">Total Students</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-book" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ total_courses }}</div><div class="stat-label">Total Courses</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-clipboard-check" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ total_enrollments }}</div><div class="stat-label">Total Enrollments</div></div></div>
+  {% if ugx_fees > 0 %}<div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-wallet" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);font-size:18px;">UGX {{ ugx_fees|floatformat:0 }}</div><div class="stat-label">UGX Collected</div></div></div>{% endif %}
+  {% if usd_fees > 0 %}<div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-dollar-sign" style="color:var(--info);"></i></div><div><div class="stat-value" style="color:var(--info);font-size:18px;">USD {{ usd_fees|floatformat:0 }}</div><div class="stat-label">USD Collected</div></div></div>{% endif %}
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(139,92,246,0.1);"><i class="fas fa-medal" style="color:#8B5CF6;"></i></div><div><div class="stat-value" style="color:#8B5CF6;">{{ avg_marks }}%</div><div class="stat-label">Avg Marks</div></div></div>
+</div>
+<div class="card"><div class="card-body" style="text-align:center;padding:40px;"><i class="fas fa-file-download" style="font-size:40px;color:#E2E8F0;margin-bottom:12px;display:block;"></i><p style="color:var(--text-muted);">Export features coming soon. More detailed reports and Excel/PDF export will be available.</p></div></div>
+{% endblock %}

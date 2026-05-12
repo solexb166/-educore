@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Analytics{% endblock %}
+{% block extra_css %}<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-chart-line"></i> Analytics</h1><p>University performance insights</p></div></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-user-graduate" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_students }}</div><div class="stat-label">Total Students</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-clipboard-check" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ total_enrolled }}</div><div class="stat-label">Total Enrolled</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-chart-bar" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ avg_marks|floatformat:1 }}%</div><div class="stat-label">Avg Marks</div></div></div>
+</div>
+<div class="grid-2">
+  <div class="card"><div class="card-header"><h5><i class="fas fa-chart-bar"></i> Grade Distribution</h5></div><div class="card-body"><canvas id="gradeChart" height="200"></canvas></div></div>
+  <div class="card"><div class="card-header"><h5><i class="fas fa-chart-pie"></i> Programme Distribution</h5></div><div class="card-body"><canvas id="progChart" height="200"></canvas></div></div>
+</div>
+{% block extra_js %}
+<script>
+const gd = {{ grade_data|safe }};
+const pd = {{ programme_data|safe }};
+if(gd.length) new Chart(document.getElementById('gradeChart'),{type:'bar',data:{labels:gd.map(d=>d.grade),datasets:[{label:'Students',data:gd.map(d=>d.count),backgroundColor:['#10B981','#3B82F6','#F59E0B','#F97316','#EF4444'],borderRadius:6}]},options:{responsive:true,plugins:{legend:{display:false}}}});
+if(pd.length) new Chart(document.getElementById('progChart'),{type:'doughnut',data:{labels:pd.map(d=>d.name),datasets:[{data:pd.map(d=>d.count),borderWidth:0,backgroundColor:['#1E3A8A','#10B981','#F59E0B','#EF4444','#8B5CF6']}]},options:{responsive:true,plugins:{legend:{position:'bottom'}},cutout:'60%'}});
+</script>
+{% endblock %}
+{% endblock %}

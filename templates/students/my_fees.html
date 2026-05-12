@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}My Fees{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1><i class="fas fa-wallet"></i> My Fees</h1><p>Your fee payment status</p></div>
+  <a href="{% url 'submit_payment' %}" class="btn btn-accent"><i class="fas fa-upload"></i> Submit Payment</a>
+</div>
+{% if student %}
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-money-bill" style="color:var(--danger);"></i></div><div><div class="stat-value" style="color:var(--danger);font-size:20px;">{{ student.currency }} {{ student.effective_tuition|floatformat:0 }}</div><div class="stat-label">Total Tuition</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-check" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);font-size:20px;">{{ student.currency }} {{ student.total_paid|floatformat:0 }}</div><div class="stat-label">Total Paid</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-hourglass" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);font-size:20px;">{{ student.currency }} {{ balance|floatformat:0 }}</div><div class="stat-label">Balance Due</div></div></div>
+</div>
+<div class="card mb-4">
+  <div class="card-header"><h5><i class="fas fa-history"></i> Payment History</h5></div>
+  <div class="table-wrapper">
+    <table><thead><tr><th>#</th><th>Date</th><th>Receipt</th><th>Amount</th><th>Balance</th></tr></thead>
+    <tbody>{% for p in payments %}<tr><td>{{ forloop.counter }}</td><td>{{ p.payment_date|date:"M d, Y" }}</td><td style="font-family:monospace;font-size:12px;">{{ p.receipt_number }}</td><td style="font-weight:700;color:var(--accent);">{{ p.currency }} {{ p.amount_paid|floatformat:0 }}</td><td style="color:var(--danger);">{{ p.currency }} {{ p.balance|floatformat:0 }}</td></tr>{% empty %}<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);">No payments recorded</td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header"><h5><i class="fas fa-clock"></i> Payment Submissions</h5></div>
+  <div class="table-wrapper">
+    <table><thead><tr><th>#</th><th>Date</th><th>Reference</th><th>Amount</th><th>Status</th></tr></thead>
+    <tbody>{% for s in submissions %}<tr><td>{{ forloop.counter }}</td><td>{{ s.date_submitted|date:"M d, Y" }}</td><td style="font-family:monospace;font-size:12px;">{{ s.reference_number }}</td><td style="font-weight:600;">{{ s.currency }} {{ s.amount_paid|floatformat:0 }}</td><td><span class="badge badge-{% if s.status == 'approved' %}success{% elif s.status == 'rejected' %}danger{% else %}warning{% endif %}">{{ s.status|title }}</span></td></tr>{% empty %}<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text-muted);">No submissions yet</td></tr>{% endfor %}</tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

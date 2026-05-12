@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduCore — ATC Expo 2026 Poster</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#1a1a2e;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:20px;
+}
+
+.poster{
+  width:794px;
+  background:white;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,0.5);
+}
+
+/* TOP HEADER BAND */
+.top-band{
+  background:linear-gradient(135deg,#0A1535 0%,#1E3A8A 50%,#1a5276 100%);
+  padding:40px 44px 32px;
+  position:relative;
+  overflow:hidden;
+}
+.top-band::before{
+  content:'';position:absolute;width:500px;height:500px;border-radius:50%;
+  background:rgba(255,255,255,0.03);top:-200px;right:-150px;
+}
+.top-band::after{
+  content:'';position:absolute;width:200px;height:200px;border-radius:50%;
+  background:rgba(16,185,129,0.08);bottom:-80px;left:50px;
+}
+
+.expo-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);
+  border-radius:100px;padding:6px 16px;margin-bottom:20px;
+}
+.expo-badge span{font-size:11px;color:#6EE7B7;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.expo-dot{width:6px;height:6px;border-radius:50%;background:#10B981;}
+
+.brand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.brand-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:52px;font-weight:900;color:white;letter-spacing:-2px;line-height:1;}
+.brand-name span{color:#10B981;}
+.brand-tag{font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;font-weight:500;}
+
+.sdg-badges{display:flex;gap:8px;}
+.sdg-b{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;color:#6EE7B7;text-align:center;}
+.sdg-b small{display:block;font-size:9px;font-weight:500;color:rgba(255,255,255,0.4);margin-top:1px;}
+
+.hero-headline{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:30px;font-weight:900;color:white;
+  line-height:1.15;letter-spacing:-0.5px;
+  margin-bottom:12px;
+}
+.hero-headline em{font-style:normal;color:#10B981;}
+
+.hero-sub{font-size:14px;color:rgba(255,255,255,0.6);line-height:1.6;max-width:500px;}
+
+/* IMPACT ROW */
+.impact-row{
+  background:linear-gradient(90deg,#10B981,#059669);
+  padding:18px 44px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.impact-item{text-align:center;}
+.impact-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:900;color:white;}
+.impact-label{font-size:10px;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+/* MAIN BODY */
+.body{padding:32px 44px;background:white;}
+
+/* PROBLEM vs SOLUTION */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+
+.section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+.problem-box{background:#FEF2F2;border-radius:16px;padding:20px;border:1px solid #FECACA;}
+.solution-box{background:#F0FDF4;border-radius:16px;padding:20px;border:1px solid #BBF7D0;}
+
+.list-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;line-height:1.5;}
+.list-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px;}
+.icon-red{background:#FEE2E2;color:#EF4444;}
+.icon-green{background:#D1FAE5;color:#10B981;}
+
+/* FEATURES GRID */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.feature-item{background:#F8FAFF;border-radius:12px;padding:16px;border:1px solid #E2E8F0;}
+.feature-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;}
+.feature-title{font-size:13px;font-weight:700;color:#1E293B;margin-bottom:4px;}
+.feature-desc{font-size:11px;color:#64748B;line-height:1.5;}
+
+/* AI SECTION */
+.ai-section{
+  background:linear-gradient(135deg,#1E3A8A,#3B5BB5);
+  border-radius:16px;padding:20px;margin-bottom:28px;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:20px;align-items:center;
+}
+.ai-left{}
+.ai-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:4px 12px;margin-bottom:10px;}
+.ai-badge span{font-size:10px;color:#6EE7B7;font-weight:700;text-transform:uppercase;}
+.ai-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:white;line-height:1.2;margin-bottom:8px;}
+.ai-sub{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5;}
+.ai-points{display:flex;flex-direction:column;gap:6px;margin-top:12px;}
+.ai-point{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,0.8);}
+.ai-point i{color:#10B981;font-size:11px;}
+
+.chat-demo{background:white;border-radius:12px;overflow:hidden;}
+.chat-head{background:#0A1535;padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.chat-ava{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;}
+.chat-name{color:white;font-size:12px;font-weight:700;}
+.chat-status{font-size:10px;color:rgba(255,255,255,0.5);}
+.chat-online{width:6px;height:6px;border-radius:50%;background:#10B981;margin-left:auto;}
+.chat-msgs{padding:12px;display:flex;flex-direction:column;gap:8px;}
+.msg{font-size:11px;line-height:1.5;padding:8px 12px;border-radius:10px;max-width:90%;}
+.msg-bot{background:#F0F4FF;color:#1E293B;border-bottom-left-radius:3px;}
+.msg-user{background:#1E3A8A;color:white;align-self:flex-end;border-bottom-right-radius:3px;}
+
+/* MARKET + SDG ROW */
+.bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+.market-box{background:#F8FAFF;border-radius:16px;padding:20px;border:1px solid #E2E8F0;}
+.sdg-box{background:linear-gradient(135deg,#064E3B,#065F46);border-radius:16px;padding:20px;}
+.market-stat{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #E2E8F0;}
+.market-stat:last-child{border-bottom:none;}
+.market-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:900;color:#1E3A8A;min-width:70px;}
+.market-label{font-size:12px;color:#64748B;}
+.sdg-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.sdg-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:#10B981;min-width:40px;line-height:1;}
+.sdg-text{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+.sdg-text strong{color:white;display:block;margin-bottom:2px;}
+
+/* PRICING ROW */
+.pricing-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
+.price-box{border-radius:12px;padding:16px;border:2px solid #E2E8F0;text-align:center;}
+.price-box.hot{background:linear-gradient(135deg,#1E3A8A,#3B5BB5);border-color:#1E3A8A;}
+.price-plan{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94A3B8;margin-bottom:6px;}
+.price-box.hot .price-plan{color:rgba(255,255,255,0.6);}
+.price-amt{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:900;color:#1E293B;line-height:1;}
+.price-box.hot .price-amt{color:white;}
+.price-per{font-size:11px;color:#94A3B8;margin-bottom:10px;}
+.price-box.hot .price-per{color:rgba(255,255,255,0.5);}
+.price-f{font-size:11px;color:#64748B;padding:4px 0;display:flex;align-items:center;gap:6px;justify-content:center;}
+.price-box.hot .price-f{color:rgba(255,255,255,0.8);}
+.price-f i{color:#10B981;font-size:10px;}
+.hot-badge{background:#10B981;color:white;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;display:inline-block;margin-bottom:8px;}
+
+/* FOOTER BAND */
+.footer-band{
+  background:#0A1535;
+  padding:20px 44px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-brand{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:900;color:white;}
+.footer-brand span{color:#10B981;}
+.footer-contact{text-align:right;}
+.footer-contact p{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:2px;}
+.footer-contact strong{color:rgba(255,255,255,0.8);}
+.footer-expo{text-align:center;}
+.footer-expo p{font-size:11px;color:rgba(255,255,255,0.4);}
+.footer-expo strong{color:#10B981;}
+
+@media print{
+  body{background:white;padding:0;}
+  .poster{box-shadow:none;width:100%;}
+}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- TOP HEADER -->
+  <div class="top-band">
+    <div class="expo-badge">
+      <div class="expo-dot"></div>
+      <span>🏆 ATC National Appropriate Technologies Expo & Innovation Lounge 2026 — Kampala</span>
+    </div>
+    <div class="brand-row">
+      <div>
+        <div class="brand-name">Edu<span>Core</span></div>
+        <div class="brand-tag">Smart University Management Platform</div>
+      </div>
+      <div class="sdg-badges">
+        <div class="sdg-b">SDG 4<small>Quality Education</small></div>
+        <div class="sdg-b">SDG 9<small>Innovation</small></div>
+        <div class="sdg-b">SDG 13<small>Climate Action</small></div>
+      </div>
+    </div>
+    <div class="hero-headline">
+      Transforming African Universities.<br>
+      <em>Saving the Planet.</em> One Campus at a Time.
+    </div>
+    <div class="hero-sub">
+      EduCore replaces paper forms, spreadsheets, and manual queues with one intelligent, AI-powered platform — making quality university management accessible to every institution across Africa.
+    </div>
+  </div>
+
+  <!-- IMPACT BAND -->
+  <div class="impact-row">
+    <div class="impact-item">
+      <div class="impact-num">2,450+</div>
+      <div class="impact-label">Sheets Saved/Semester</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-num">120hrs</div>
+      <div class="impact-label">Student Hours Saved</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-num">$15K+</div>
+      <div class="impact-label">Admin Cost Saved/Year</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-num">90%</div>
+      <div class="impact-label">Universities Still Manual</div>
+    </div>
+    <div class="impact-item">
+      <div class="impact-num">0</div>
+      <div class="impact-label">Paper Needed with EduCore</div>
+    </div>
+  </div>
+
+  <!-- MAIN BODY -->
+  <div class="body">
+
+    <!-- PROBLEM vs SOLUTION -->
+    <div class="two-col">
+      <div class="problem-box">
+        <div class="section-title" style="color:#991B1B;"><i class="fas fa-exclamation-circle"></i> The Problem</div>
+        <div class="list-item"><div class="list-icon icon-red"><i class="fas fa-times"></i></div><span style="color:#7F1D1D;">Student records scattered across departments — no single source of truth</span></div>
+        <div class="list-item"><div class="list-icon icon-red"><i class="fas fa-times"></i></div><span style="color:#7F1D1D;">Fee payments tracked in spreadsheets — Finance cannot see real-time status</span></div>
+        <div class="list-item"><div class="list-icon icon-red"><i class="fas fa-times"></i></div><span style="color:#7F1D1D;">Students queue for hours to register, get clearance, print documents</span></div>
+        <div class="list-item"><div class="list-icon icon-red"><i class="fas fa-times"></i></div><span style="color:#7F1D1D;">Thousands of paper sheets wasted every semester — trees and money lost</span></div>
+        <div class="list-item"><div class="list-icon icon-red"><i class="fas fa-times"></i></div><span style="color:#7F1D1D;">Management makes decisions without real data — no visibility</span></div>
+      </div>
+      <div class="solution-box">
+        <div class="section-title" style="color:#065F46;"><i class="fas fa-check-circle"></i> EduCore Solution</div>
+        <div class="list-item"><div class="list-icon icon-green"><i class="fas fa-check"></i></div><span style="color:#064E3B;">One unified platform — all departments connected in real time</span></div>
+        <div class="list-item"><div class="list-icon icon-green"><i class="fas fa-check"></i></div><span style="color:#064E3B;">Live fee tracking — auto-enrollment when payment threshold is reached</span></div>
+        <div class="list-item"><div class="list-icon icon-green"><i class="fas fa-check"></i></div><span style="color:#064E3B;">Students do everything from their phone — zero queuing required</span></div>
+        <div class="list-item"><div class="list-icon icon-green"><i class="fas fa-check"></i></div><span style="color:#064E3B;">100% paperless — documents generated and printed digitally</span></div>
+        <div class="list-item"><div class="list-icon icon-green"><i class="fas fa-check"></i></div><span style="color:#064E3B;">Real-time analytics dashboard — management sees everything now</span></div>
+      </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="section-title" style="color:#1E293B;font-size:15px;margin-bottom:14px;"><i class="fas fa-star" style="color:#F59E0B;"></i> Key Features</div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#EFF6FF;"><i class="fas fa-user-graduate" style="color:#1E3A8A;"></i></div>
+        <div class="feature-title">Student Self-Service</div>
+        <div class="feature-desc">Register modules, submit payments, view results, and print documents from any phone</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#F0FDF4;"><i class="fas fa-wallet" style="color:#10B981;"></i></div>
+        <div class="feature-title">Smart Fee Management</div>
+        <div class="feature-desc">Real-time payment tracking with auto-enrollment. Any currency supported globally</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#EFF6FF;"><i class="fas fa-robot" style="color:#3B82F6;"></i></div>
+        <div class="feature-title">AI-Powered Assistant</div>
+        <div class="feature-desc">Finance staff query live data in plain English — the first AI university system in Africa</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#F5F3FF;"><i class="fas fa-file-alt" style="color:#8B5CF6;"></i></div>
+        <div class="feature-title">Instant Documents</div>
+        <div class="feature-desc">Proof of Registration, Exam Dockets, and Transcripts generated automatically</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#F0FDF4;"><i class="fas fa-chart-line" style="color:#10B981;"></i></div>
+        <div class="feature-title">Analytics Dashboard</div>
+        <div class="feature-desc">Live charts for enrollment, fee collection, grade distributions, and clearance rates</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#FFFBEB;"><i class="fas fa-cog" style="color:#F59E0B;"></i></div>
+        <div class="feature-title">Fully Configurable</div>
+        <div class="feature-desc">Your logo, colours, currency, grading scale, and thresholds. Any university, anywhere</div>
+      </div>
+    </div>
+
+    <!-- AI HIGHLIGHT -->
+    <div class="ai-section">
+      <div class="ai-left">
+        <div class="ai-badge"><span>🤖 AI Powered</span></div>
+        <div class="ai-title">Africa's First AI-Powered University Management Platform</div>
+        <div class="ai-sub">Finance and Exam Office staff ask real questions and get instant answers from live university data.</div>
+        <div class="ai-points">
+          <div class="ai-point"><i class="fas fa-check"></i> Connected to live database — answers are always accurate</div>
+          <div class="ai-point"><i class="fas fa-check"></i> Powered by Anthropic Claude AI — world-class intelligence</div>
+          <div class="ai-point"><i class="fas fa-check"></i> No competitor in Africa has this capability</div>
+        </div>
+      </div>
+      <div class="chat-demo">
+        <div class="chat-head">
+          <div class="chat-ava">🤖</div>
+          <div><div class="chat-name">EduCore AI</div><div class="chat-status">Live University Assistant</div></div>
+          <div class="chat-online"></div>
+        </div>
+        <div class="chat-msgs">
+          <div class="msg msg-bot">Hello! I have live access to your university data right now. Ask me anything!</div>
+          <div class="msg msg-user">Who is not cleared for final exams?</div>
+          <div class="msg msg-bot"><strong>23 students</strong> have not reached the 100% threshold.<br><br>• Alice Nakato — UGX 450,000 remaining<br>• John Mukasa — UGX 280,000 remaining<br>• Sarah Ochen — UGX 195,000 remaining<br><br>20 more students need attention. View full list?</div>
+          <div class="msg msg-user">Total fees collected this month?</div>
+          <div class="msg msg-bot">UGX <strong>47,500,000</strong> collected this month across 312 transactions. Up 18% from last month.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKET + SDG -->
+    <div class="bottom-row">
+      <div class="market-box">
+        <div class="section-title" style="color:#1E3A8A;font-size:14px;"><i class="fas fa-globe-africa"></i> Market Opportunity</div>
+        <div class="market-stat"><div class="market-num">1,700+</div><div class="market-label">Universities across Africa that need this solution</div></div>
+        <div class="market-stat"><div class="market-num">10M+</div><div class="market-label">University students in Sub-Saharan Africa</div></div>
+        <div class="market-stat"><div class="market-num">$50M+</div><div class="market-label">Addressable market at $299/university/month</div></div>
+        <div class="market-stat"><div class="market-num">0</div><div class="market-label">AI university competitors in Africa right now</div></div>
+      </div>
+      <div class="sdg-box">
+        <div class="section-title" style="color:white;font-size:14px;"><i class="fas fa-globe" style="color:#10B981;"></i> Sustainable Development Goals</div>
+        <div class="sdg-item">
+          <div class="sdg-num">4</div>
+          <div class="sdg-text"><strong>Quality Education</strong>Efficient university management ensures students focus on learning, not paperwork and queues</div>
+        </div>
+        <div class="sdg-item">
+          <div class="sdg-num">9</div>
+          <div class="sdg-text"><strong>Innovation & Infrastructure</strong>Homegrown African technology building digital infrastructure for education across the continent</div>
+        </div>
+        <div class="sdg-item" style="margin-bottom:0;">
+          <div class="sdg-num">13</div>
+          <div class="sdg-text"><strong>Climate Action</strong>Paperless university eliminates 2,450+ sheets per semester per campus — reducing carbon footprint</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="section-title" style="color:#1E293B;font-size:15px;margin-bottom:14px;"><i class="fas fa-tag" style="color:#1E3A8A;"></i> Subscription Pricing — 30-Day Free Trial</div>
+    <div class="pricing-row">
+      <div class="price-box">
+        <div class="price-plan">Starter</div>
+        <div class="price-amt">$99</div>
+        <div class="price-per">/month · up to 500 students</div>
+        <div class="price-f"><i class="fas fa-check"></i> All core modules</div>
+        <div class="price-f"><i class="fas fa-check"></i> Student portal</div>
+        <div class="price-f"><i class="fas fa-check"></i> Fee management</div>
+        <div class="price-f"><i class="fas fa-check"></i> Results & documents</div>
+      </div>
+      <div class="price-box hot">
+        <div class="hot-badge">⭐ MOST POPULAR</div>
+        <div class="price-plan">Growth</div>
+        <div class="price-amt">$299</div>
+        <div class="price-per">/month · up to 2,000 students</div>
+        <div class="price-f"><i class="fas fa-check"></i> Everything in Starter</div>
+        <div class="price-f"><i class="fas fa-check"></i> AI-powered chatbot</div>
+        <div class="price-f"><i class="fas fa-check"></i> Analytics dashboard</div>
+        <div class="price-f"><i class="fas fa-check"></i> Transcripts & GPA</div>
+      </div>
+      <div class="price-box">
+        <div class="price-plan">Enterprise</div>
+        <div class="price-amt">$599</div>
+        <div class="price-per">/month · unlimited students</div>
+        <div class="price-f"><i class="fas fa-check"></i> Everything in Growth</div>
+        <div class="price-f"><i class="fas fa-check"></i> Multi-campus support</div>
+        <div class="price-f"><i class="fas fa-check"></i> White-label option</div>
+        <div class="price-f"><i class="fas fa-check"></i> Dedicated support</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER BAND -->
+  <div class="footer-band">
+    <div>
+      <div class="footer-brand">Edu<span>Core</span></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;">Built in Uganda. Built for Africa.</div>
+    </div>
+    <div class="footer-expo" style="text-align:center;">
+      <p style="font-size:11px;color:rgba(255,255,255,0.4);">Presented at</p>
+      <strong style="font-size:13px;color:#10B981;">4th National ATC Expo & Innovation Lounge 2026</strong>
+      <p style="font-size:11px;color:rgba(255,255,255,0.4);">13–17 May 2026 · UMA Show Ground · Kampala</p>
+    </div>
+    <div class="footer-contact" style="text-align:right;">
+      <p><strong>solomonbitrus166@gmail.com</strong></p>
+      <p>Presented by: <strong>Cavendish University Uganda</strong></p>
+      <p>BIT212 · Systems Analysis & Design</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center;margin-top:20px;color:rgba(255,255,255,0.4);font-size:13px;">
+  Press Ctrl+P to print · Best printed on A1 or A0 paper
+</div>
+
+</body>
+</html>

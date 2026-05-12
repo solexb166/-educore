@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}User Management{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-users-cog"></i> User Management</h1><p>{{ users.count }} users</p></div>
+<button onclick="document.getElementById('createModal').style.display='flex'" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add User</button>
+</div>
+<div class="card"><div class="table-wrapper">
+<table><thead><tr><th>#</th><th>Username</th><th>Full Name</th><th>Email</th><th>Role</th><th>Action</th></tr></thead>
+<tbody>{% for u in users %}
+<tr><td>{{ forloop.counter }}</td><td><strong>{{ u.username }}</strong></td><td>{{ u.get_full_name|default:"-" }}</td><td style="font-size:13px;">{{ u.email|default:"-" }}</td>
+<td><span class="badge badge-{% if u.role == 'uni_admin' %}primary{% elif u.role == 'finance' %}success{% elif u.role == 'lecturer' %}warning{% elif u.role == 'student' %}muted{% else %}info{% endif %}">{{ u.get_role_display_name }}</span></td>
+<td><a href="{% url 'edit_user' u.pk %}" class="btn btn-outline btn-sm"><i class="fas fa-edit"></i></a>{% if u.pk != request.user.pk %}<a href="{% url 'delete_user' u.pk %}" class="btn btn-danger btn-sm" style="margin-left:4px;"><i class="fas fa-trash"></i></a>{% endif %}</td>
+</tr>{% empty %}<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">No users found</td></tr>{% endfor %}
+</tbody></table>
+</div></div>
+
+<div id="createModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;overflow-y:auto;">
+<div style="background:white;border-radius:20px;padding:32px;width:90%;max-width:560px;margin:20px auto;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;"><h3 style="color:var(--primary);"><i class="fas fa-user-plus"></i> Create User</h3><button onclick="document.getElementById('createModal').style.display='none'" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);">&times;</button></div>
+<form method="post" action="{% url 'create_user' %}">{% csrf_token %}
+<div class="grid-2">
+  <div class="form-group"><label class="form-label">First Name</label><input type="text" name="first_name" class="form-control" placeholder="John"></div>
+  <div class="form-group"><label class="form-label">Last Name</label><input type="text" name="last_name" class="form-control" placeholder="Doe"></div>
+  <div class="form-group"><label class="form-label">Username *</label><input type="text" name="username" class="form-control" required placeholder="john.doe"></div>
+  <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-control" placeholder="john@email.com"></div>
+  <div class="form-group"><label class="form-label">Password *</label><input type="password" name="password" class="form-control" required placeholder="Min 6 chars"></div>
+  <div class="form-group"><label class="form-label">Role *</label>
+    <select name="role" class="form-control" required onchange="document.getElementById('lecturerFields').style.display=this.value=='lecturer'?'block':'none'">
+      <option value="registry">Registry Staff</option><option value="finance">Finance Staff</option><option value="lecturer">Lecturer</option><option value="exam_office">Exam Office</option><option value="uni_admin">Administrator</option>
+    </select>
+  </div>
+</div>
+<div id="lecturerFields" style="display:none;">
+  <div class="form-group"><label class="form-label">Specialization</label><input type="text" name="specialization" class="form-control" placeholder="e.g. Software Engineering"></div>
+  <div class="form-group"><label class="form-label">Assign Courses</label>
+    {% for c in courses %}<label style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px;"><input type="checkbox" name="courses" value="{{ c.id }}"> {{ c.course_code }} - {{ c.name }}</label>{% empty %}<p style="color:var(--text-muted);font-size:13px;">No courses yet</p>{% endfor %}
+  </div>
+</div>
+<button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;"><i class="fas fa-save"></i> Create User</button>
+</form>
+</div></div>
+{% endblock %}

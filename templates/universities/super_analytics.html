@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Super Analytics{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-globe"></i> EduCore Platform Analytics</h1></div></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-university" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_universities }}</div><div class="stat-label">Total Universities</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-check-circle" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ active_universities }}</div><div class="stat-label">Active</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-clock" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ trial_universities }}</div><div class="stat-label">On Trial</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-user-graduate" style="color:var(--info);"></i></div><div><div class="stat-value" style="color:var(--info);">{{ total_students }}</div><div class="stat-label">Total Students</div></div></div>
+</div>
+<div class="card"><div class="card-header"><h5>All Universities</h5></div><div class="table-wrapper">
+<table><thead><tr><th>University</th><th>Country</th><th>Students</th><th>Status</th></tr></thead>
+<tbody>{% for u in universities %}<tr><td><strong>{{ u.name }}</strong></td><td>{{ u.country }}</td><td>{{ u.students.count }}</td><td><span class="badge badge-{% if u.status == 'active' %}success{% elif u.status == 'trial' %}warning{% else %}danger{% endif %}">{{ u.status|title }}</span></td></tr>{% endfor %}</tbody>
+</table></div></div>
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block extra_css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1><i class="fas fa-th-large"></i> Dashboard</h1>
+    <p>Welcome back, {{ user.get_full_name|default:user.username }} &bull; {{ user.get_role_display_name }}</p>
+  </div>
+  <span style="background:rgba(255,255,255,0.15);color:white;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;">
+    {% if user.university %}{{ user.university.academic_year }} Academic Year{% endif %}
+  </span>
+</div>
+
+{% if user.role == 'uni_admin' or user.role == 'super_admin' %}
+{% if pending_count > 0 %}
+<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> <strong>{{ pending_count }} payment submission(s)</strong> awaiting Finance verification. <a href="{% url 'pending_payments' %}" style="color:#92400E;font-weight:700;margin-left:8px;">Review Now →</a></div>
+{% endif %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-user-graduate" style="color:var(--primary);"></i></div>
+    <div><div class="stat-value" style="color:var(--primary);">{{ total_students }}</div><div class="stat-label">Total Students</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-book" style="color:var(--gold);"></i></div>
+    <div><div class="stat-value" style="color:var(--gold);">{{ total_courses }}</div><div class="stat-label">Active Courses</div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-clipboard-check" style="color:var(--accent);"></i></div>
+    <div><div class="stat-value" style="color:var(--accent);">{{ total_enrollments }}</div><div class="stat-label">Enrollments</div></div>
+  </div>
+  {% if ugx_fees > 0 %}
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-money-bill" style="color:var(--accent);"></i></div>
+    <div><div class="stat-value" style="color:var(--accent);font-size:20px;">UGX {{ ugx_fees|floatformat:0 }}</div><div class="stat-label">UGX Fees Collected</div></div>
+  </div>
+  {% endif %}
+  {% if usd_fees > 0 %}
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-dollar-sign" style="color:var(--info);"></i></div>
+    <div><div class="stat-value" style="color:var(--info);font-size:20px;">USD {{ usd_fees|floatformat:0 }}</div><div class="stat-label">USD Fees Collected</div></div>
+  </div>
+  {% endif %}
+  <div class="stat-card">
+    <div class="stat-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-clock" style="color:var(--danger);"></i></div>
+    <div><div class="stat-value" style="color:var(--danger);">{{ pending_count }}</div><div class="stat-label">Pending Payments</div></div>
+  </div>
+</div>
+
+{% if chart_data %}
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:28px;">
+  <div class="card">
+    <div class="card-header"><h5><i class="fas fa-chart-line"></i> Fee Collection (Last 6 Months)</h5></div>
+    <div class="card-body"><canvas id="feeChart" height="120"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><h5><i class="fas fa-chart-doughnut"></i> Clearance Status</h5></div>
+    <div class="card-body"><canvas id="clearanceChart" height="180"></canvas></div>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+
+{% if user.role == 'finance' %}
+{% if pending_count > 0 %}<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> <strong>{{ pending_count }} payment(s)</strong> waiting for verification. <a href="{% url 'pending_payments' %}" style="color:#92400E;font-weight:700;margin-left:8px;">Verify Now →</a></div>{% endif %}
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-check-circle" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ exam_cleared }}</div><div class="stat-label">Exam Cleared</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-clipboard-check" style="color:var(--info);"></i></div><div><div class="stat-value" style="color:var(--info);">{{ cat2_cleared }}</div><div class="stat-label">CAT 2 Cleared</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-star-half-alt" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ cat1_cleared }}</div><div class="stat-label">CAT 1 Cleared</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-times-circle" style="color:var(--danger);"></i></div><div><div class="stat-value" style="color:var(--danger);">{{ not_enrolled }}</div><div class="stat-label">Not Enrolled</div></div></div>
+  {% if ugx_fees > 0 %}<div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-wallet" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);font-size:18px;">UGX {{ ugx_fees|floatformat:0 }}</div><div class="stat-label">UGX Collected</div></div></div>{% endif %}
+  {% if usd_fees > 0 %}<div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-dollar-sign" style="color:var(--info);"></i></div><div><div class="stat-value" style="color:var(--info);font-size:18px;">USD {{ usd_fees|floatformat:0 }}</div><div class="stat-label">USD Collected</div></div></div>{% endif %}
+</div>
+{% endif %}
+
+{% if user.role == 'registry' %}
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-user-graduate" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_students }}</div><div class="stat-label">Total Students</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-book" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ total_courses }}</div><div class="stat-label">Courses</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-clipboard-list" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ total_enrollments }}</div><div class="stat-label">Enrollments</div></div></div>
+</div>
+{% endif %}
+
+{% if user.role == 'lecturer' %}
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-book" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ total_courses }}</div><div class="stat-label">My Courses</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-users" style="color:var(--gold);"></i></div><div><div class="stat-value" style="color:var(--gold);">{{ total_students }}</div><div class="stat-label">My Students</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-medal" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ results_entered }}</div><div class="stat-label">Results Entered</div></div></div>
+</div>
+{% if my_courses %}
+<h5 style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;"><i class="fas fa-book"></i> My Courses</h5>
+<div class="grid-2">
+{% for course in my_courses %}
+<a href="{% url 'course_students' course.id %}" class="module-card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+    <span class="badge badge-primary">{{ course.course_code }}</span>
+    <span class="badge badge-success">{{ course.enrolled_count }} students</span>
+  </div>
+  <div class="module-title">{{ course.name }}</div>
+  <div class="module-desc">Semester {{ course.semester_in_programme }} &bull; {{ course.credits }} credits</div>
+</a>
+{% endfor %}
+</div>
+{% endif %}
+{% endif %}
+
+{% if user.role != 'lecturer' %}
+<h5 style="font-size:16px;font-weight:700;color:var(--text);margin:24px 0 16px;"><i class="fas fa-th"></i> Quick Access</h5>
+<div class="grid-3">
+{% if user.role == 'uni_admin' or user.role == 'registry' %}
+<a href="{% url 'students_list' %}" class="module-card" style="border-left-color:var(--primary);">
+  <div class="module-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-user-graduate" style="color:var(--primary);font-size:20px;"></i></div>
+  <div class="module-title">Students</div><div class="module-desc">Register and manage student profiles</div>
+</a>
+<a href="{% url 'courses_list' %}" class="module-card" style="border-left-color:var(--gold);">
+  <div class="module-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-book" style="color:var(--gold);font-size:20px;"></i></div>
+  <div class="module-title">Courses</div><div class="module-desc">Manage courses and assignments</div>
+</a>
+<a href="{% url 'departments_list' %}" class="module-card" style="border-left-color:var(--info);">
+  <div class="module-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-sitemap" style="color:var(--info);font-size:20px;"></i></div>
+  <div class="module-title">Departments</div><div class="module-desc">Manage departments and programmes</div>
+</a>
+{% endif %}
+{% if user.role == 'uni_admin' or user.role == 'finance' %}
+<a href="{% url 'pending_payments' %}" class="module-card" style="border-left-color:var(--danger);">
+  <div class="module-icon" style="background:rgba(239,68,68,0.1);position:relative;">
+    <i class="fas fa-clock" style="color:var(--danger);font-size:20px;"></i>
+    {% if pending_count > 0 %}<span style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:white;border-radius:50%;width:18px;height:18px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;">{{ pending_count }}</span>{% endif %}
+  </div>
+  <div class="module-title">Pending Payments</div><div class="module-desc">Verify student payment submissions</div>
+</a>
+<a href="{% url 'fees_list' %}" class="module-card" style="border-left-color:var(--accent);">
+  <div class="module-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-wallet" style="color:var(--accent);font-size:20px;"></i></div>
+  <div class="module-title">Fee Payments</div><div class="module-desc">Track payments and clearance status</div>
+</a>
+<a href="{% url 'reports' %}" class="module-card" style="border-left-color:#8B5CF6;">
+  <div class="module-icon" style="background:rgba(139,92,246,0.1);"><i class="fas fa-chart-bar" style="color:#8B5CF6;font-size:20px;"></i></div>
+  <div class="module-title">Reports</div><div class="module-desc">Generate financial and academic reports</div>
+</a>
+{% endif %}
+{% if user.role == 'uni_admin' %}
+<a href="{% url 'results_list' %}" class="module-card" style="border-left-color:var(--danger);">
+  <div class="module-icon" style="background:rgba(239,68,68,0.1);"><i class="fas fa-medal" style="color:var(--danger);font-size:20px;"></i></div>
+  <div class="module-title">Results</div><div class="module-desc">Record and manage student results</div>
+</a>
+<a href="{% url 'exam_office_dashboard' %}" class="module-card" style="border-left-color:var(--gold);">
+  <div class="module-icon" style="background:rgba(245,158,11,0.1);"><i class="fas fa-file-alt" style="color:var(--gold);font-size:20px;"></i></div>
+  <div class="module-title">Exam Office</div><div class="module-desc">Clearance and exam dockets</div>
+</a>
+<a href="{% url 'users_list' %}" class="module-card" style="border-left-color:var(--info);">
+  <div class="module-icon" style="background:rgba(59,130,246,0.1);"><i class="fas fa-users-cog" style="color:var(--info);font-size:20px;"></i></div>
+  <div class="module-title">User Management</div><div class="module-desc">Manage all system user accounts</div>
+</a>
+<a href="{% url 'analytics' %}" class="module-card" style="border-left-color:#8B5CF6;">
+  <div class="module-icon" style="background:rgba(139,92,246,0.1);"><i class="fas fa-chart-line" style="color:#8B5CF6;font-size:20px;"></i></div>
+  <div class="module-title">Analytics</div><div class="module-desc">Charts and performance insights</div>
+</a>
+<a href="{% url 'university_settings' pk=user.university.pk %}" class="module-card" style="border-left-color:var(--text-muted);">
+  <div class="module-icon" style="background:rgba(100,116,139,0.1);"><i class="fas fa-cog" style="color:var(--text-muted);font-size:20px;"></i></div>
+  <div class="module-title">University Settings</div><div class="module-desc">Configure your university profile</div>
+</a>
+{% endif %}
+</div>
+{% endif %}
+
+{% block extra_js %}
+{% if chart_data %}
+<script>
+const feeData = {{ chart_data|safe }};
+const clearData = {{ enrollment_data|safe }};
+new Chart(document.getElementById('feeChart'), {
+  type: 'bar',
+  data: {
+    labels: feeData.map(d => d.month),
+    datasets: [{label: 'Fees Collected', data: feeData.map(d => d.amount),
+      backgroundColor: 'rgba(30,58,138,0.8)', borderRadius: 6, borderSkipped: false}]
+  },
+  options: {
+    responsive: true,
+    plugins: {legend: {display: false}, tooltip: {callbacks: {label: ctx => ctx.parsed.y.toLocaleString()}}},
+    scales: {y: {beginAtZero: true, ticks: {callback: v => {
+      if (v >= 1000000) return (v/1000000).toFixed(1) + 'M';
+      if (v >= 1000) return (v/1000).toFixed(0) + 'K';
+      return v.toLocaleString();
+    }}}}
+  }
+});
+new Chart(document.getElementById('clearanceChart'), {
+  type: 'doughnut',
+  data: {
+    labels: clearData.map(d => d.label),
+    datasets: [{data: clearData.map(d => d.value), backgroundColor: clearData.map(d => d.color), borderWidth: 0}]
+  },
+  options: {responsive: true, plugins: {legend: {position: 'bottom', labels: {font: {size: 11}}}}, cutout: '65%'}
+});
+</script>
+{% endif %}
+{% endblock %}
+{% endblock %}

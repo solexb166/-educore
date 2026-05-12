@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-user-graduate"></i> Students</h1><p>{{ students.count }} student(s) registered</p></div><a href="{% url 'student_register' %}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Register Student</a></div>
+<div class="card mb-4"><div class="card-body" style="padding:14px;">
+  <form method="get" style="display:flex;gap:10px;">
+    <input type="text" name="search" value="{{ search }}" class="form-control" placeholder="Search by name or ID..." style="max-width:300px;">
+    <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> Search</button>
+    {% if search %}<a href="{% url 'students_list' %}" class="btn btn-outline btn-sm">Clear</a>{% endif %}
+  </form>
+</div></div>
+<div class="card">
+  <div class="table-wrapper">
+    <table><thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Programme</th><th>Semester</th><th>Type</th><th>Payment %</th><th>Status</th></tr></thead>
+    <tbody>{% for s in students %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td><span class="badge badge-primary">{{ s.student_id }}</span></td>
+      <td><strong>{{ s.full_name }}</strong><br><small style="color:var(--text-muted);">{{ s.user.email }}</small></td>
+      <td style="font-size:12px;">{{ s.programme.name|default:"N/A"|truncatechars:25 }}</td>
+      <td style="text-align:center;">Sem {{ s.semester_in_programme }}</td>
+      <td><span class="badge badge-muted">{{ s.get_student_type_display }}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:90px;background:#E2E8F0;border-radius:100px;height:8px;overflow:hidden;">
+            <div style="height:100%;border-radius:100px;background:{% if s.payment_percentage >= 100 %}#10B981{% elif s.payment_percentage >= 75 %}#3B82F6{% elif s.payment_percentage >= 50 %}#F59E0B{% elif s.payment_percentage >= 30 %}#8B5CF6{% else %}#EF4444{% endif %};width:{{ s.payment_percentage|floatformat:0 }}%;transition:width 0.5s ease;"></div>
+          </div>
+          <span style="font-size:12px;font-weight:700;color:{% if s.payment_percentage >= 100 %}#10B981{% elif s.payment_percentage >= 75 %}#3B82F6{% elif s.payment_percentage >= 50 %}#F59E0B{% elif s.payment_percentage >= 30 %}#8B5CF6{% else %}#EF4444{% endif %};">{{ s.payment_percentage|floatformat:1 }}%</span>
+        </div>
+      </td>
+      <td>{% with status=s.get_clearance_status %}<span class="badge badge-{{ status.1 }}">{{ status.0 }}</span>{% endwith %}</td>
+    </tr>
+    {% empty %}<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);">No students registered yet. <a href="{% url 'student_register' %}">Register first student</a></td></tr>{% endfor %}
+    </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

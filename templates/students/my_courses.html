@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}My Modules{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-book-open"></i> My Modules</h1></div><a href="{% url 'select_modules' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Register Modules</a></div>
+{% if enrollments %}
+<h5 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;"><i class="fas fa-check-circle" style="color:var(--accent);"></i> Enrolled Modules</h5>
+<div class="card mb-4"><div class="table-wrapper"><table><thead><tr><th>Code</th><th>Module Name</th><th>Credits</th><th>Lecturer</th></tr></thead>
+<tbody>{% for e in enrollments %}<tr><td><span class="badge badge-primary">{{ e.course.course_code }}</span></td><td><strong>{{ e.course.name }}</strong></td><td>{{ e.course.credits }}</td><td style="font-size:13px;">{{ e.course.lecturer.full_name|default:"TBA" }}</td></tr>{% endfor %}</tbody>
+</table></div></div>
+{% endif %}
+{% if selections %}
+<h5 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;"><i class="fas fa-clock" style="color:var(--warning);"></i> Pending Payment</h5>
+<div class="card"><div class="table-wrapper"><table><thead><tr><th>Code</th><th>Module Name</th><th>Credits</th><th>Status</th></tr></thead>
+<tbody>{% for s in selections %}<tr><td><span class="badge badge-muted">{{ s.course.course_code }}</span></td><td>{{ s.course.name }}</td><td>{{ s.course.credits }}</td><td><span class="badge badge-warning"><i class="fas fa-clock"></i> Pending Payment</span></td></tr>{% endfor %}</tbody>
+</table></div></div>
+{% endif %}
+{% if not enrollments and not selections %}
+<div class="card"><div class="card-body" style="text-align:center;padding:60px;"><i class="fas fa-book" style="font-size:48px;color:#E2E8F0;display:block;margin-bottom:12px;"></i><h3 style="color:var(--text);">No modules yet</h3><p style="color:var(--text-muted);margin:8px 0 20px;">Register your modules for this semester</p><a href="{% url 'select_modules' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Register Modules</a></div></div>
+{% endif %}
+{% endblock %}

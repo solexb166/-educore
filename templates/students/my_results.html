@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}My Results{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-chart-bar"></i> My Results</h1><p>Your published academic results</p></div></div>
+{% if results %}
+<div class="stats-grid" style="margin-bottom:24px;">
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(30,58,138,0.1);"><i class="fas fa-chart-line" style="color:var(--primary);"></i></div><div><div class="stat-value" style="color:var(--primary);">{{ average }}%</div><div class="stat-label">Average Marks</div></div></div>
+  <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,0.1);"><i class="fas fa-book" style="color:var(--accent);"></i></div><div><div class="stat-value" style="color:var(--accent);">{{ results.count }}</div><div class="stat-label">Results Published</div></div></div>
+</div>
+{% endif %}
+<div class="card">
+  <div class="table-wrapper">
+    <table><thead><tr><th>#</th><th>Course Code</th><th>Course Name</th><th>Credits</th><th>Marks</th><th>Grade</th></tr></thead>
+    <tbody>{% for r in results %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td><span class="badge badge-primary">{{ r.course.course_code }}</span></td>
+      <td><strong>{{ r.course.name }}</strong></td>
+      <td>{{ r.course.credits }}</td>
+      <td><strong>{{ r.marks|floatformat:1 }}%</strong></td>
+      <td><span class="badge badge-{% if r.grade == 'A' %}success{% elif r.grade == 'B' %}info{% elif r.grade == 'C' %}warning{% elif r.grade == 'D' %}warning{% else %}danger{% endif %}">{{ r.grade }}</span></td>
+    </tr>
+    {% empty %}<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">No results published yet</td></tr>{% endfor %}
+    </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

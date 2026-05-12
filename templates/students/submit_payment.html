@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Submit Payment{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1><i class="fas fa-upload"></i> Submit Payment</h1><p>Upload your bank payment proof for Finance to verify</p></div>
+  <a href="{% url 'my_fees' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+</div>
+<div class="card" style="max-width:600px;">
+  <div class="card-body">
+    {% if student %}<div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:20px;"><div style="font-size:13px;color:var(--text-muted);">Paying for: <strong>{{ student.full_name }}</strong> &bull; Balance: <strong style="color:var(--danger);">{{ student.currency }} {{ student.effective_tuition|floatformat:0|add:"-"|add:student.total_paid|floatformat:0 }}</strong></div></div>{% endif %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+      <div class="form-group"><label class="form-label">Payment Method *</label>
+        <select name="payment_method" class="form-control" required>
+          <option value="bank">Bank Transfer</option><option value="mobile_money">Mobile Money</option><option value="card">Card Payment</option><option value="cash">Cash</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Bank / Service Name</label><input type="text" name="bank_name" class="form-control" placeholder="e.g. Stanbic Bank, MTN Mobile Money"></div>
+      <div class="form-group"><label class="form-label">Reference / Transaction Number *</label><input type="text" name="reference_number" class="form-control" required placeholder="e.g. TXN123456789"></div>
+      <div class="form-group"><label class="form-label">Amount Paid *</label><input type="number" name="amount_paid" class="form-control" required placeholder="0" step="0.01"></div>
+      <div class="form-group"><label class="form-label">Receipt Image (optional)</label><input type="file" name="receipt_image" class="form-control" accept="image/*,.pdf"></div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea name="notes" class="form-control" rows="2" placeholder="Any additional notes..."></textarea></div>
+      <div class="alert alert-info" style="margin-bottom:16px;"><i class="fas fa-info-circle"></i> Finance will verify your submission and update your clearance status.</div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:13px;"><i class="fas fa-upload"></i> Submit Payment for Verification</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

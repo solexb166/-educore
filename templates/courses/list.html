@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<div class="page-header"><div><h1><i class="fas fa-book"></i> Courses</h1><p>{{ courses.count }} course(s)</p></div><a href="{% url 'course_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Course</a></div>
+<div class="card"><div class="table-wrapper">
+  <table><thead><tr><th>#</th><th>Code</th><th>Course Name</th><th>Semester</th><th>Lecturer</th><th>Credits</th><th>Enrolled</th><th>Type</th></tr></thead>
+  <tbody>{% for c in courses %}
+  <tr><td>{{ forloop.counter }}</td><td><span class="badge badge-primary">{{ c.course_code }}</span></td><td><strong>{{ c.name }}</strong></td><td style="text-align:center;"><span class="badge badge-muted">Sem {{ c.semester_in_programme }}</span></td><td style="font-size:13px;">{{ c.lecturer.full_name|default:"TBA" }}</td><td style="text-align:center;">{{ c.credits }}</td><td style="text-align:center;">{{ c.enrolled_count }}/{{ c.max_enrollment }}</td><td>{% if c.is_elective %}<span class="badge badge-warning">Elective</span>{% else %}<span class="badge badge-success">Core</span>{% endif %}</td></tr>
+  {% empty %}<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-muted);">No courses added</td></tr>{% endfor %}
+  </tbody></table>
+</div></div>
+{% endblock %}

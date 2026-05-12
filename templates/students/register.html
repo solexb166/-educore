@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Register Student{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1><i class="fas fa-user-plus"></i> Register Student</h1><p>Create a new student account</p></div>
+  <a href="{% url 'students_list' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+</div>
+{% if otp_info %}
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light,#3B5BB5));border-radius:16px;padding:24px;margin-bottom:24px;color:white;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+    <div style="width:44px;height:44px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fas fa-check" style="font-size:18px;"></i></div>
+    <div><div style="font-size:17px;font-weight:700;">Student Registered Successfully!</div><div style="opacity:0.7;font-size:13px;">Give these credentials to the student</div></div>
+  </div>
+  <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div><div style="font-size:11px;opacity:0.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Student Name</div><div style="font-size:16px;font-weight:700;">{{ otp_info.student_name }}</div></div>
+    <div><div style="font-size:11px;opacity:0.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Student ID</div><div style="font-size:16px;font-weight:700;">{{ otp_info.student_id }}</div></div>
+    <div><div style="font-size:11px;opacity:0.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Username</div><div style="font-size:16px;font-weight:700;">{{ otp_info.username }}</div></div>
+    <div><div style="font-size:11px;opacity:0.6;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">One-Time Password</div><div style="font-size:36px;font-weight:800;color:var(--gold);letter-spacing:8px;">{{ otp_info.otp }}</div></div>
+  </div>
+  <div style="margin-top:12px;font-size:12px;opacity:0.6;"><i class="fas fa-info-circle"></i> Student logs in with username and this OTP, then sets their own password.</div>
+</div>
+{% endif %}
+<div class="card" style="max-width:800px;">
+  <div class="card-header"><h5><i class="fas fa-user-graduate"></i> Student Registration Form</h5></div>
+  <div class="card-body">
+    <form method="post">{% csrf_token %}
+      <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-id-card"></i> Personal Information</div>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">Full Name *</label><input type="text" name="full_name" class="form-control" required placeholder="Alice Nakato"></div>
+          <div class="form-group"><label class="form-label">Student ID *</label><input type="text" name="student_id" class="form-control" required placeholder="2024/BSC/001"></div>
+          <div class="form-group"><label class="form-label">Gender</label><select name="gender" class="form-control"><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option></select></div>
+          <div class="form-group"><label class="form-label">Phone</label><input type="text" name="phone" class="form-control" placeholder="+256 700 000000"></div>
+          <div class="form-group"><label class="form-label">Nationality</label><input type="text" name="nationality" class="form-control" placeholder="Ugandan"></div>
+          <div class="form-group"><label class="form-label">Student Type *</label><select name="student_type" class="form-control" required><option value="local">Local</option><option value="international">International</option><option value="exchange">Exchange</option></select></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-graduation-cap"></i> Academic Information</div>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">Department *</label><select name="department" class="form-control" required><option value="">Select Department</option>{% for d in departments %}<option value="{{ d.id }}">{{ d.name }}</option>{% endfor %}</select></div>
+          <div class="form-group"><label class="form-label">Programme</label><select name="programme" class="form-control"><option value="">Select Programme</option>{% for p in programmes %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
+          <div class="form-group"><label class="form-label">Semester in Programme *</label><select name="semester_in_programme" class="form-control" required>{% for i in "12345678" %}<option value="{{ i }}">Semester {{ i }}</option>{% endfor %}</select></div>
+          <div class="form-group"><label class="form-label">Mode of Study *</label><select name="mode_of_study" class="form-control" required><option value="full_time">Full Time</option><option value="part_time">Part Time</option><option value="distance">Distance Learning</option><option value="online">Online</option></select></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-wallet"></i> Fee Information</div>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">Tuition Amount *</label><input type="number" name="tuition_amount" class="form-control" required placeholder="0" step="0.01"></div>
+          <div class="form-group"><label class="form-label">Currency *</label><select name="currency" class="form-control" required><option value="UGX">UGX</option><option value="USD">USD</option><option value="KES">KES</option><option value="GHS">GHS</option><option value="NGN">NGN</option><option value="ZAR">ZAR</option><option value="EUR">EUR</option><option value="GBP">GBP</option></select></div>
+          <div class="form-group"><label class="form-label">Scholarship (%)</label><input type="number" name="scholarship_percentage" class="form-control" value="0" min="0" max="100"></div>
+        </div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:12px;"><i class="fas fa-user-lock"></i> Login Credentials</div>
+        <div class="grid-2">
+          <div class="form-group"><label class="form-label">Username *</label><input type="text" name="username" class="form-control" required placeholder="alice.nakato"></div>
+          <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-control" placeholder="alice@email.com"></div>
+        </div>
+        <div class="alert alert-info"><i class="fas fa-key"></i> A 6-digit OTP will be generated for first login.</div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;"><i class="fas fa-save"></i> Register Student & Generate OTP</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
