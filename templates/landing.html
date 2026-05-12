@@ -13,7 +13,7 @@
 body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;padding:0 60px;height:68px;display:flex;align-items:center;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.07);box-shadow:0 1px 12px rgba(0,0,0,0.04);}
+.nav{position:fixed;top:0;left:0;right:0;padding:0 60px;height:68px;display:flex;align-items:center;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,0.07);box-shadow:0 1px 12px rgba(0,0,0,0.04);overflow:hidden;}
 .nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:900;color:#1E3A8A;letter-spacing:-1px;text-decoration:none;}
 .nav-logo span{color:#10B981;}
 .nav-links{display:flex;gap:32px;margin-left:48px;}
@@ -28,7 +28,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* HERO */
 .hero{min-height:100vh;background:linear-gradient(135deg,#071330 0%,#0F2560 40%,#1a4080 100%);display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;}
-.hero-overlay{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80&fit=crop') center/cover no-repeat;opacity:0.08;z-index:0;}
+.hero-overlay{display:none;}
 .hero-content{position:relative;z-index:2;max-width:600px;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:100px;padding:7px 16px;margin-bottom:28px;}
 .hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#10B981;animation:bdot 2s infinite;}
@@ -61,7 +61,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 /* LOGOS BAR */
 .logos-bar{padding:40px 60px;background:#F8FAFF;border-bottom:1px solid #E2E8F0;text-align:center;}
 .logos-bar p{font-size:12px;color:#94A3B8;text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:20px;}
-.logos-row{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;}
+.logos-row{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;}
 .uni-logo-item{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:#CBD5E1;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px;}
 .uni-logo-item i{font-size:18px;}
 
@@ -78,8 +78,8 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* FEATURES WITH SCREENSHOTS */
 .features-section{padding:100px 60px;background:white;}
-.feat-row{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:100px;}
-.feat-row.reverse{direction:rtl;}
+.feat-row{display:grid;grid-template-columns:1fr;gap:24px;align-items:center;margin-bottom:60px;max-width:760px;margin-left:auto;margin-right:auto;}
+.feat-row.reverse{direction:ltr;}
 .feat-row.reverse > *{direction:ltr;}
 .feat-text{}
 .feat-tag{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:4px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
@@ -104,7 +104,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* AI SECTION */
 .ai-section{padding:100px 60px;background:#F8FAFF;}
-.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.ai-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;}
 .chat-window{background:white;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(30,58,138,0.1);border:1px solid #E2E8F0;}
 .chat-head{background:linear-gradient(135deg,#1E3A8A,#3B5BB5);padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .chat-ava{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;color:white;}
@@ -128,7 +128,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* MARKET */
 .market-section{padding:100px 60px;background:white;}
-.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.market-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;max-width:760px;margin:0 auto;}
 .market-img{border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(30,58,138,0.08);border:1px solid #E2E8F0;}
 .market-img img{width:100%;display:block;height:420px;object-fit:cover;}
 .market-stats{display:flex;flex-direction:column;gap:14px;margin-top:28px;}
@@ -184,14 +184,14 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 
 /* CTA SECTION */
 .cta-section{padding:100px 60px;background:linear-gradient(135deg,#071330,#0F2560);text-align:center;position:relative;overflow:hidden;}
-.cta-section::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80&fit=crop') center/cover no-repeat;opacity:0.06;}
+
 .cta-content{position:relative;z-index:2;max-width:600px;margin:0 auto;}
 .cta-h{font-family:'Plus Jakarta Sans',sans-serif;font-size:44px;font-weight:900;color:white;line-height:1.15;letter-spacing:-1.5px;margin-bottom:16px;}
 .cta-p{font-size:17px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:36px;}
 
 /* FOOTER */
 .footer{background:#071330;padding:60px;}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;margin-bottom:48px;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px;}
 .footer-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:900;color:white;margin-bottom:10px;text-decoration:none;display:inline-block;}
 .footer-logo span{color:#10B981;}
 .footer-tag{color:rgba(255,255,255,0.35);font-size:14px;margin-bottom:20px;line-height:1.6;}
@@ -203,22 +203,44 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 .footer-heading{color:white;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:18px;}
 .footer-link{display:block;color:rgba(255,255,255,0.35);font-size:14px;text-decoration:none;margin-bottom:10px;transition:color 0.2s;}
 .footer-link:hover{color:rgba(255,255,255,0.75);}
-.footer-bottom{border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
 .fcopy{color:rgba(255,255,255,0.25);font-size:13px;}
 
 /* RESPONSIVE */
 @media(max-width:1100px){.hero-image{display:none;}}
 @media(max-width:768px){
-  .nav{padding:0 20px;}.nav-links{display:none;}
-  .hero{padding:90px 24px 60px;}.hero h1{font-size:36px;}
-  .hero-stats{gap:20px;flex-wrap:wrap;}
-  .section,.features-section,.stats-section,.ai-section,.market-section,.sdg-section,.how-section,.pricing-section,.cta-section{padding:60px 24px;}
-  .feat-row,.ai-grid,.market-grid{grid-template-columns:1fr;}
+  .nav{padding:0 16px;height:60px;}.nav-links{display:none;}
+  .hero{padding:80px 20px 50px;}.hero h1{font-size:32px;letter-spacing:-1px;}
+  .hero-sub{font-size:15px;}
+  .hero-stats{gap:16px;flex-wrap:wrap;}
+  .hstat-num{font-size:26px;}
+  .hero-badge span{font-size:11px;}
+  .btn-green,.btn-ghost{padding:13px 22px;font-size:14px;}
+  .section,.features-section,.stats-section,.ai-section,.market-section,.sdg-section,.how-section,.pricing-section,.cta-section{padding:50px 20px;}
+  .sec-h{font-size:30px;letter-spacing:-1px;}
+  .feat-row,.ai-grid,.market-grid{grid-template-columns:1fr;gap:32px;}
   .feat-row.reverse{direction:ltr;}
-  .stats-grid,.sdg-grid,.steps-grid,.pricing-grid{grid-template-columns:1fr;}
+  .feat-img img{height:240px !important;}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:16px;}
+  .stat-box-num{font-size:32px;}
+  .sdg-grid,.steps-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;max-width:100%;}
   .price-card.hot{transform:scale(1);}
-  .footer{padding:40px 24px;}.footer-top{grid-template-columns:1fr;gap:32px;}
-  .logos-bar{padding:32px 24px;}.logos-row{gap:24px;}
+  .cta-h{font-size:30px;}
+  .footer{padding:40px 20px;}
+  .footer-top{grid-template-columns:1fr;gap:28px;}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center;}
+  .logos-bar{padding:28px 20px;}.logos-row{gap:16px;}
+  .market-img img{height:280px !important;}
+  .sdg-card-img{height:140px;}
+  .steps-grid{gap:16px;}
+  .hero-sdg span{font-size:11px;}
+}
+@media(max-width:400px){
+  .hero h1{font-size:28px;}
+  .hero-stats{gap:12px;}
+  .hstat-num{font-size:22px;}
+  .stats-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -241,7 +263,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay"></div>
+  
   <div class="hero-content">
     <div class="hero-badge">
       <div class="hero-badge-dot"></div>
@@ -264,10 +286,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
       <div><div class="hstat-num">0</div><div class="hstat-label">Paper Needed<br>with EduCore</div></div>
     </div>
   </div>
-  <div class="hero-image">
-    <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=900&q=85&fit=crop" alt="University students">
-    <div class="hero-image-badge">
-      <div class="hib-icon"><i class="fas fa-check-circle"></i></div>
+
       <div><div class="hib-text">Auto-enrolled</div><div class="hib-sub">Payment verified &bull; 30% reached</div></div>
     </div>
   </div>
@@ -293,7 +312,6 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
   <!-- Feature 1 -->
   <div class="feat-row">
     <div class="feat-text">
-      <div class="feat-tag" style="background:#EFF6FF;color:#1E3A8A;"><i class="fas fa-user-graduate"></i> Student Portal</div>
       <h2 class="feat-h">Students manage everything from their phone</h2>
       <p class="feat-p">No more queuing at Registry or Finance. Students register modules, submit payments, view results, and print official documents — all from their phone.</p>
       <div class="feat-points">
@@ -303,15 +321,12 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Print Proof of Registration and Exam Docket instantly</div>
       </div>
     </div>
-    <div class="feat-img">
-      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=85&fit=crop" alt="Students using phones" style="height:380px;object-fit:cover;">
-    </div>
+
   </div>
 
   <!-- Feature 2 -->
   <div class="feat-row reverse">
     <div class="feat-text">
-      <div class="feat-tag" style="background:#F0FDF4;color:#059669;"><i class="fas fa-wallet"></i> Smart Finance</div>
       <h2 class="feat-h">Real-time fee tracking and automatic enrollment</h2>
       <p class="feat-p">Finance staff verify payments in seconds. The system automatically enrolls students when payment thresholds are reached — no manual work required.</p>
       <div class="feat-points">
@@ -321,15 +336,12 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Instant clearance lists for all thresholds</div>
       </div>
     </div>
-    <div class="feat-img">
-      <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=85&fit=crop" alt="Finance management" style="height:380px;object-fit:cover;">
-    </div>
+
   </div>
 
   <!-- Feature 3 -->
   <div class="feat-row" style="margin-bottom:0;">
     <div class="feat-text">
-      <div class="feat-tag" style="background:#F5F3FF;color:#7C3AED;"><i class="fas fa-file-alt"></i> Documents</div>
       <h2 class="feat-h">Official documents generated instantly</h2>
       <p class="feat-p">Proof of Registration, Exam Entry Dockets, and Academic Transcripts are generated automatically and available for students to print directly from their portal.</p>
       <div class="feat-points">
@@ -339,9 +351,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Zero manual printing or stamping needed</div>
       </div>
     </div>
-    <div class="feat-img">
-      <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=700&q=85&fit=crop" alt="Documents and records" style="height:380px;object-fit:cover;">
-    </div>
+
   </div>
 
 </section>
@@ -349,8 +359,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 <!-- STATS -->
 <section class="stats-section">
   <div class="sec-center">
-    <div class="sec-tag tag-green" style="border:1px solid rgba(16,185,129,0.3);"><i class="fas fa-chart-line"></i> Platform Impact</div>
-    <h2 class="sec-h" style="color:white;text-align:center;">Every campus that adopts EduCore<br>makes a measurable difference</h2>
+      <h2 class="sec-h" style="color:white;text-align:center;">Every campus that adopts EduCore<br>makes a measurable difference</h2>
   </div>
   <div class="stats-grid">
     <div class="stat-box">
@@ -376,8 +385,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 <section class="ai-section" id="ai">
   <div class="ai-grid">
     <div>
-      <div class="sec-tag tag-blue"><i class="fas fa-robot"></i> AI-Powered</div>
-      <h2 class="sec-h">Africa's first university platform with a built-in AI assistant</h2>
+          <h2 class="sec-h">Africa's first university platform with a built-in AI assistant</h2>
       <p class="sec-p">Finance staff and Exam Office can ask real questions about real data in plain English. No more digging through spreadsheets.</p>
       <div class="check-list">
         <div class="check-item">
@@ -415,8 +423,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 <section class="market-section" id="market">
   <div class="market-grid">
     <div>
-      <div class="sec-tag tag-blue"><i class="fas fa-globe-africa"></i> Market Opportunity</div>
-      <h2 class="sec-h">Built for Africa.<br>Ready to scale<br>globally.</h2>
+          <h2 class="sec-h">Built for Africa.<br>Ready to scale<br>globally.</h2>
       <p class="sec-p">90% of universities across Sub-Saharan Africa still manage student records manually. EduCore is ready to change that today.</p>
       <div class="market-stats">
         <div class="mstat"><div class="mstat-num">1,700+</div><div class="mstat-label">Universities across Africa that need this solution</div></div>
@@ -425,21 +432,18 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="mstat"><div class="mstat-num">0</div><div class="mstat-label">AI university management competitors in Africa right now</div></div>
       </div>
     </div>
-    <div class="market-img">
-      <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700&q=85&fit=crop" alt="University campus Africa">
-    </div>
+
   </div>
 </section>
 
 <!-- SDG -->
 <section class="sdg-section">
   <div class="sec-center">
-    <div class="sec-tag" style="background:rgba(16,185,129,0.15);color:#6EE7B7;border:1px solid rgba(16,185,129,0.25);"><i class="fas fa-globe"></i> Sustainable Development Goals</div>
-    <h2 class="sec-h" style="color:white;text-align:center;">EduCore directly advances<br>3 UN Sustainable Development Goals</h2>
+      <h2 class="sec-h" style="color:white;text-align:center;">EduCore directly advances<br>3 UN Sustainable Development Goals</h2>
   </div>
   <div class="sdg-grid">
     <div class="sdg-card">
-      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&fit=crop" alt="Quality education"></div>
+      <div class="sdg-card-img"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">4</div>
         <div class="sdg-title">Quality Education</div>
@@ -447,7 +451,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
       </div>
     </div>
     <div class="sdg-card">
-      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&fit=crop" alt="Innovation technology"></div>
+      <div class="sdg-card-img"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">9</div>
         <div class="sdg-title">Innovation &amp; Infrastructure</div>
@@ -455,7 +459,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
       </div>
     </div>
     <div class="sdg-card">
-      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&fit=crop" alt="Climate action nature"></div>
+      <div class="sdg-card-img"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">13</div>
         <div class="sdg-title">Climate Action</div>
@@ -468,8 +472,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 <!-- HOW IT WORKS -->
 <section class="how-section">
   <div class="sec-center">
-    <div class="sec-tag tag-blue"><i class="fas fa-play-circle"></i> How It Works</div>
-    <h2 class="sec-h" style="text-align:center;">Up and running in minutes</h2>
+      <h2 class="sec-h" style="text-align:center;">Up and running in minutes</h2>
     <p class="sec-p" style="text-align:center;margin:0 auto;">No installation. No IT team needed. Just register your university and start managing.</p>
   </div>
   <div class="steps-grid">
@@ -503,8 +506,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
   <div class="sec-center">
-    <div class="sec-tag tag-blue"><i class="fas fa-tag"></i> Pricing</div>
-    <h2 class="sec-h" style="text-align:center;">Simple pricing. Massive value.</h2>
+      <h2 class="sec-h" style="text-align:center;">Simple pricing. Massive value.</h2>
     <p class="sec-p" style="text-align:center;margin:0 auto;">Start free for 30 days. No credit card. No commitment.</p>
   </div>
   <div class="pricing-grid">
