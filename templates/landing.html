@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>EduCore — Smart University Management Platform</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
@@ -28,7 +28,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* HERO */
 .hero{min-height:100vh;background:linear-gradient(135deg,#071330 0%,#0F2560 40%,#1a4080 100%);display:flex;align-items:center;padding:100px 60px 60px;position:relative;overflow:hidden;}
-.hero-overlay{display:none;}
+.hero-overlay{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1600&q=80&fit=crop') center/cover no-repeat;opacity:0.08;z-index:0;}
 .hero-content{position:relative;z-index:2;max-width:600px;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:100px;padding:7px 16px;margin-bottom:28px;}
 .hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#10B981;animation:bdot 2s infinite;}
@@ -78,8 +78,9 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* FEATURES WITH SCREENSHOTS */
 .features-section{padding:100px 60px;background:white;}
-.feat-row{display:grid;grid-template-columns:1fr;gap:24px;align-items:center;margin-bottom:60px;max-width:760px;margin-left:auto;margin-right:auto;}
-.feat-row.reverse{direction:ltr;}
+.feat-row{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:100px;}
+.feat-row.reverse{direction:rtl;}
+.feat-row.reverse > *{direction:ltr;}
 .feat-row.reverse > *{direction:ltr;}
 .feat-text{}
 .feat-tag{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:4px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;}
@@ -104,7 +105,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* AI SECTION */
 .ai-section{padding:100px 60px;background:#F8FAFF;}
-.ai-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
 .chat-window{background:white;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(30,58,138,0.1);border:1px solid #E2E8F0;}
 .chat-head{background:linear-gradient(135deg,#1E3A8A,#3B5BB5);padding:16px 20px;display:flex;align-items:center;gap:12px;}
 .chat-ava{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:15px;color:white;}
@@ -128,7 +129,7 @@ body{font-family:'Inter',sans-serif;background:white;color:#1E293B;}
 
 /* MARKET */
 .market-section{padding:100px 60px;background:white;}
-.market-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:center;max-width:760px;margin:0 auto;}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
 .market-img{border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(30,58,138,0.08);border:1px solid #E2E8F0;}
 .market-img img{width:100%;display:block;height:420px;object-fit:cover;}
 .market-stats{display:flex;flex-direction:column;gap:14px;margin-top:28px;}
@@ -207,41 +208,43 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
 .fcopy{color:rgba(255,255,255,0.25);font-size:13px;}
 
 /* RESPONSIVE */
-@media(max-width:1100px){.hero-image{display:none;}}
-@media(max-width:768px){
-  .nav{padding:0 16px;height:60px;}.nav-links{display:none;}
-  .hero{padding:80px 20px 50px;}.hero h1{font-size:32px;letter-spacing:-1px;}
-  .hero-sub{font-size:15px;}
-  .hero-stats{gap:16px;flex-wrap:wrap;}
-  .hstat-num{font-size:26px;}
-  .hero-badge span{font-size:11px;}
-  .btn-green,.btn-ghost{padding:13px 22px;font-size:14px;}
-  .section,.features-section,.stats-section,.ai-section,.market-section,.sdg-section,.how-section,.pricing-section,.cta-section{padding:50px 20px;}
-  .sec-h{font-size:30px;letter-spacing:-1px;}
-  .feat-row,.ai-grid,.market-grid{grid-template-columns:1fr;gap:32px;}
+/* ── FLUID RESPONSIVE ── */
+@media(max-width:1100px){
+  .hero-image{display:none;}
+  .nav{padding:0 32px;}
+}
+@media(max-width:900px){
+  .nav{padding:0 20px;}
+  .nav-links{display:none;}
+  .feat-row,.ai-grid,.market-grid{grid-template-columns:1fr;gap:40px;}
   .feat-row.reverse{direction:ltr;}
-  .feat-img img{height:240px !important;}
-  .stats-grid{grid-template-columns:1fr 1fr;gap:16px;}
-  .stat-box-num{font-size:32px;}
-  .sdg-grid,.steps-grid{grid-template-columns:1fr;}
-  .pricing-grid{grid-template-columns:1fr;max-width:100%;}
+  .sdg-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+  .steps-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr));}
+  .pricing-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));max-width:100%;}
   .price-card.hot{transform:scale(1);}
-  .cta-h{font-size:30px;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .hero{padding:80px 20px 50px;}
+  .section,.features-section,.stats-section,.ai-section,.market-section,.sdg-section,.how-section,.pricing-section,.cta-section{padding:50px 20px;}
   .footer{padding:40px 20px;}
   .footer-top{grid-template-columns:1fr;gap:28px;}
   .footer-bottom{flex-direction:column;gap:8px;text-align:center;}
-  .logos-bar{padding:28px 20px;}.logos-row{gap:16px;}
-  .market-img img{height:280px !important;}
-  .sdg-card-img{height:140px;}
-  .steps-grid{gap:16px;}
-  .hero-sdg span{font-size:11px;}
+  .logos-bar{padding:28px 20px;}
+  .logos-row{gap:12px;}
 }
-@media(max-width:400px){
-  .hero h1{font-size:28px;}
-  .hero-stats{gap:12px;}
-  .hstat-num{font-size:22px;}
-  .stats-grid{grid-template-columns:1fr;}
-}
+/* Fluid hero text */
+.hero h1{font-size:clamp(28px,6vw,58px);}
+.hero-sub{font-size:clamp(14px,2.5vw,17px);}
+.sec-h{font-size:clamp(24px,5vw,42px);}
+.feat-h{font-size:clamp(20px,3.5vw,30px);}
+.cta-h{font-size:clamp(24px,5vw,44px);}
+.hstat-num{font-size:clamp(22px,4vw,32px);}
+.stat-box-num{font-size:clamp(28px,5vw,44px);}
+.price-amt{font-size:clamp(36px,5vw,52px);}
+.sdg-num{font-size:clamp(36px,6vw,52px);}
+.section-pad{padding:clamp(50px,8vw,100px) clamp(20px,5vw,60px);}
 </style>
 </head>
 <body>
@@ -287,6 +290,10 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
     </div>
   </div>
 
+  <div class="hero-image">
+    <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=900&q=85&fit=crop" alt="University students">
+    <div class="hero-image-badge">
+      <div class="hib-icon"><i class="fas fa-check-circle"></i></div>
       <div><div class="hib-text">Auto-enrolled</div><div class="hib-sub">Payment verified &bull; 30% reached</div></div>
     </div>
   </div>
@@ -321,7 +328,9 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Print Proof of Registration and Exam Docket instantly</div>
       </div>
     </div>
-
+    <div class="feat-img">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=85&fit=crop" alt="Students using devices" style="height:380px;object-fit:cover;">
+    </div>
   </div>
 
   <!-- Feature 2 -->
@@ -336,7 +345,9 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Instant clearance lists for all thresholds</div>
       </div>
     </div>
-
+    <div class="feat-img">
+      <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=85&fit=crop" alt="Finance management" style="height:380px;object-fit:cover;">
+    </div>
   </div>
 
   <!-- Feature 3 -->
@@ -351,7 +362,9 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
         <div class="feat-point"><i class="fas fa-check"></i> Zero manual printing or stamping needed</div>
       </div>
     </div>
-
+    <div class="feat-img">
+      <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=700&q=85&fit=crop" alt="Documents" style="height:380px;object-fit:cover;">
+    </div>
   </div>
 
 </section>
@@ -443,7 +456,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
   </div>
   <div class="sdg-grid">
     <div class="sdg-card">
-      <div class="sdg-card-img"></div>
+      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80&fit=crop" alt="Quality education" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">4</div>
         <div class="sdg-title">Quality Education</div>
@@ -451,7 +464,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
       </div>
     </div>
     <div class="sdg-card">
-      <div class="sdg-card-img"></div>
+      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80&fit=crop" alt="Innovation" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">9</div>
         <div class="sdg-title">Innovation &amp; Infrastructure</div>
@@ -459,7 +472,7 @@ hr.pdiv{border:none;border-top:1px solid #F1F5F9;margin-bottom:16px;}
       </div>
     </div>
     <div class="sdg-card">
-      <div class="sdg-card-img"></div>
+      <div class="sdg-card-img"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&q=80&fit=crop" alt="Climate" style="width:100%;height:100%;object-fit:cover;"></div>
       <div class="sdg-card-body">
         <div class="sdg-num">13</div>
         <div class="sdg-title">Climate Action</div>
