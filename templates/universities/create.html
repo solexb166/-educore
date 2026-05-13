@@ -3,62 +3,217 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Register Your University — EduCore</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/main.css' %}">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
-body{background:#F0F4FF;min-height:100vh;padding:40px 20px;}
-.wrap{max-width:680px;margin:0 auto;}
-.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;}
-.logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:900;color:#1E3A8A;text-decoration:none;letter-spacing:-1px;}
-.logo span{color:#10B981;}
-.back-btn{display:inline-flex;align-items:center;gap:6px;color:#64748B;font-size:13px;font-weight:500;text-decoration:none;padding:8px 14px;border-radius:8px;border:1.5px solid #E2E8F0;background:white;transition:all 0.2s;}
-.back-btn:hover{border-color:#1E3A8A;color:#1E3A8A;}
-.page-title{text-align:center;margin-bottom:28px;}
-.page-title h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;color:#1E293B;margin-bottom:6px;}
-.page-title p{font-size:14px;color:#64748B;}
-.section-box{background:white;border-radius:16px;padding:24px;margin-bottom:16px;border:1px solid #E2E8F0;}
-.section-label{font-size:13px;font-weight:700;color:#1E3A8A;margin-bottom:18px;display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:0.5px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.form-group{display:flex;flex-direction:column;gap:5px;}
-.form-group.full{grid-column:1/-1;}
-.form-group label{font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:1px;}
-.form-group input,.form-group select{padding:10px 13px;border:1.5px solid #E2E8F0;border-radius:9px;font-size:14px;color:#1E293B;font-family:'Inter',sans-serif;outline:none;transition:all 0.2s;background:white;}
-.form-group input:focus,.form-group select:focus{border-color:#1E3A8A;box-shadow:0 0 0 3px rgba(30,58,138,0.08);}
-.form-group input::placeholder{color:#CBD5E1;}
-.trial-note{background:#F0FDF4;border:1px solid #D1FAE5;border-radius:10px;padding:12px 16px;font-size:13px;color:#065F46;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-.trial-note i{color:#10B981;font-size:16px;flex-shrink:0;}
-.btn-register{width:100%;padding:15px;background:#1E3A8A;color:white;border:none;border-radius:11px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.3s;}
-.btn-register:hover{background:#1E2F6A;transform:translateY(-1px);box-shadow:0 6px 20px rgba(30,58,138,0.25);}
-.sign-in{text-align:center;margin-top:18px;font-size:13px;color:#94A3B8;}
-.sign-in a{color:#1E3A8A;font-weight:600;text-decoration:none;}
-.sign-in a:hover{text-decoration:underline;}
-/* Fluid responsive for all devices */
-.wrap{width:min(680px, calc(100% - 32px));margin:0 auto;}
-.form-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
-body{padding:clamp(16px,4vw,40px) clamp(12px,3vw,20px);}
-.section-box{padding:clamp(16px,3vw,24px);}
-.page-title h1{font-size:clamp(20px,4vw,28px);}
-.form-group input,.form-group select{font-size:16px;}
-@media(max-width:480px){
-  .form-grid{grid-template-columns:1fr;}
-  .form-group.full{grid-column:1;}
-  .top-bar{flex-direction:column;gap:8px;align-items:flex-start;}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #EFF3FF;
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+  color: #1E293B;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* TOP BAR */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #1E3A8A;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+.logo span { color: #10B981; }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748B;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #E2E8F0;
+  background: white;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.back-btn:hover { border-color: #1E3A8A; color: #1E3A8A; }
+
+/* PAGE TITLE */
+.page-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.page-title h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(20px, 5vw, 28px);
+  font-weight: 800;
+  color: #1E293B;
+  margin-bottom: 6px;
+}
+.page-title p { font-size: 14px; color: #64748B; }
+
+/* SECTION BOXES */
+.section-box {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+  border: 1px solid #E2E8F0;
+  width: 100%;
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1E3A8A;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* FORM */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  min-width: 0;
+}
+
+.form-group.full {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 9px;
+  font-size: 16px;
+  color: #1E293B;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  background: white;
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #1E3A8A;
+  box-shadow: 0 0 0 3px rgba(30,58,138,0.08);
+}
+
+.form-group input::placeholder { color: #CBD5E1; }
+
+/* Collapse to 1 column on small screens */
+@media (max-width: 480px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: 1; }
+}
+
+/* TRIAL NOTE */
+.trial-note {
+  background: #F0FDF4;
+  border: 1px solid #D1FAE5;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #065F46;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+.trial-note i { color: #10B981; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* BUTTON */
+.btn-register {
+  width: 100%;
+  padding: 14px;
+  background: #1E3A8A;
+  color: white;
+  border: none;
+  border-radius: 11px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+.btn-register:hover { background: #1E2F6A; transform: translateY(-1px); }
+.btn-register:active { transform: translateY(0); }
+
+.sign-in {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #94A3B8;
+}
+.sign-in a { color: #1E3A8A; font-weight: 600; text-decoration: none; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- TOP BAR -->
   <div class="top-bar">
     <a href="/" class="logo">Edu<span>Core</span></a>
     <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
   </div>
 
-  <!-- PAGE TITLE -->
   <div class="page-title">
     <h1>Register Your University</h1>
     <p>Start your 30-day free trial. No credit card required.</p>
@@ -66,7 +221,6 @@ body{padding:clamp(16px,4vw,40px) clamp(12px,3vw,20px);}
 
   <form method="post" enctype="multipart/form-data">{% csrf_token %}
 
-    <!-- UNIVERSITY INFO -->
     <div class="section-box">
       <div class="section-label"><i class="fas fa-university"></i> University Information</div>
       <div class="form-grid">
@@ -115,7 +269,6 @@ body{padding:clamp(16px,4vw,40px) clamp(12px,3vw,20px);}
       </div>
     </div>
 
-    <!-- ADMIN ACCOUNT -->
     <div class="section-box">
       <div class="section-label"><i class="fas fa-user-shield"></i> Administrator Account</div>
       <div class="form-grid">
@@ -129,7 +282,7 @@ body{padding:clamp(16px,4vw,40px) clamp(12px,3vw,20px);}
         </div>
         <div class="form-group">
           <label>Username *</label>
-          <input type="text" name="admin_username" required placeholder="admin.kiu">
+          <input type="text" name="admin_username" required placeholder="admin.kiu" autocomplete="off">
         </div>
         <div class="form-group">
           <label>Password *</label>
@@ -138,7 +291,6 @@ body{padding:clamp(16px,4vw,40px) clamp(12px,3vw,20px);}
       </div>
     </div>
 
-    <!-- TRIAL NOTE -->
     <div class="trial-note">
       <i class="fas fa-gift"></i>
       <span><strong>30-day free trial</strong> — no credit card required. Full access to all Growth plan features. Upgrade anytime.</span>
